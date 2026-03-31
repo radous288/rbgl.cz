@@ -623,15 +623,19 @@
                     
                     <!-- ZMĚNA: Použito čisté HTML odeslání (přidáno target="_blank" pro bezpečné odeslání z náhledu) -->
                     <form action="https://formsubmit.co/info@rbgl.cz" method="POST">
-                        <!-- Konfigurace pro FormSubmit -->
+                        <input type="hidden" name="_next" value="https://rbgl.cz">
+                    
+                        <input type="hidden" name="_captcha" value="false">
+                    
                         <input type="hidden" name="_subject" value="Nová zpráva z webu RBGL">
                         <input type="hidden" name="_template" value="table">
-                        <!-- Upozornění: Odstranil jsem vypnutí Captchy, pro první aktivaci je lepší ji nechat zapnutou -->
-
+                        <input type="text" name="_honey" style="display:none">
+                    
                         <div class="form-skupina">
                             <label>Jméno / Firma *</label>
                             <input type="text" name="Jmeno" required placeholder="Jan Novák">
                         </div>
+                    
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                             <div class="form-skupina">
                                 <label>E-mail *</label>
@@ -642,15 +646,17 @@
                                 <input type="text" name="Telefon" placeholder="+420 ...">
                             </div>
                         </div>
+                    
                         <div class="form-skupina">
                             <label>Datum a trasa jízdy</label>
                             <input type="text" name="Trasa" placeholder="Např. 15.8., Praha -> Vídeň a zpět">
                         </div>
+                    
                         <div class="form-skupina">
                             <label>Doplňující informace (počet osob...)</label>
                             <textarea rows="4" name="Zprava" placeholder="Potřebujeme odvézt 40 dětí..."></textarea>
                         </div>
-                        
+                    
                         <button type="submit" class="btn-hlavni" style="width:100%; font-size:18px;">Odeslat zprávu</button>
                     </form>
                 </div>
