@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RB Global Logistik - Autobusová doprava</title>
+    
+    <!-- Ikonky FontAwesome (abychom měli hezké obrázky autobusu, telefonu atd.) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Písmo z Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- ================================================================= -->
+    <!-- NÁSLEDUJÍCÍ ČÁST (AŽ DO </style>) BY NORMÁLNĚ BYLA V: styly.css   -->
+    <!-- V HTML byste na ni odkázal takto: <link rel="stylesheet" href="styly.css"> -->
+    <!-- ================================================================= -->
+    <style>
+        /* --- ZÁKLADNÍ NASTAVENÍ A PROMĚNNÉ --- */
+        :root {
+            --barva-pozadi: #f0f4f8; /* Jemnější pozadí */
+            --barva-textu: #1e293b;
+            --barva-modra-tmava: #0f2942; /* Přátelštější a modernější tmavě modrá */
+            --barva-hlavni: #2563eb; /* Moderní sympatická modrá místo agresivní červené */
+            --barva-hlavni-hover: #1d4ed8;
+            --barva-bila: #ffffff;
+            --sirka-obsahu: 1200px;
+        }
+
+        * {
+            box-sizing: border-box; /* Zabrání tomu, aby padding zvětšoval elementy */
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--barva-pozadi);
+            color: var(--barva-textu);
+            line-height: 1.6;
+        }
+
+        /* Třída pro omezení šířky a vycentrování obsahu */
+        .kontejner {
+            max-width: var(--sirka-obsahu);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HLAVNÍ MENU (NAVIGACE) --- */
+        header {
+            background-color: var(--barva-modra-tmava);
+            color: var(--barva-bila);
+            position: sticky; /* Zůstane přilepené nahoře při scrollování */
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .menu-lista {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i { color: var(--barva-hlavni); }
+        .logo span.akcent { color: var(--barva-hlavni); }
+
+        .odkazy {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .odkazy a {
+            color: var(--barva-bila);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .odkazy a:hover, .odkazy a.aktivni {
+            color: var(--barva-hlavni);
+        }
+
+        .btn-hlavni {
+            background-color: var(--barva-hlavni);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px; /* Modernější zaoblená tlačítka */
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            display: inline-block;
+        }
+
+        .btn-hlavni:hover {
+            background-color: var(--barva-hlavni-hover);
+            transform: translateY(-2px); /* Mírné povyskočení */
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); /* Jemný stín u tlačítek */
+        }
+
+        /* Mobilní menu tlačítko (skryté na PC) */
+        .mobil-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* --- STRÁNKÁVÁNÍ (Zobrazování jen jedné sekce) --- */
+        .stranka {
+            display: none; /* Skryje všechny stránky */
+            animation: objeveni 0.5s; /* Hezký efekt při přepnutí */
+        }
+
+        .stranka.zobrazena {
+            display: block; /* Zobrazí jen tu, která má třídu "zobrazena" */
+        }
+
+        @keyframes objeveni {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ÚVODNÍ STRÁNKA (HERO SEKCE) --- */
+        .hero {
+            background-color: var(--barva-modra-tmava);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span { color: var(--barva-hlavni); }
+        
+        .hero p {
+            font-size: 22px;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .hero-tlacitka {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-vedlejsi {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-vedlejsi:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* --- 3 BENEFITY --- */
+        .benefity-sekce {
+            background: white;
+            padding: 60px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .benefity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 sloupce vedle sebe */
+            gap: 40px;
+            text-align: center;
+        }
+
+        .benefit-ikona {
+            font-size: 40px;
+            color: var(--barva-hlavni);
+            margin-bottom: 20px;
+        }
+
+        /* --- SPOLEČNÉ STYLY PRO KARTY A OBSAH --- */
+        .sekce-nadpis {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .sekce-nadpis h2 {
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--barva-modra-tmava);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 sloupce */
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 sloupce */
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .karta {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        .karta-obrazek {
+            height: 250px;
+            background-color: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 60px;
+        }
+
+        .karta-obsah { padding: 40px; }
+        .karta-obsah h3 { font-size: 24px; margin-bottom: 10px; }
+        .karta-obsah ul { list-style: none; margin: 20px 0; }
+        .karta-obsah li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .karta-obsah li i { color: #22c55e; } /* Zelená fajfka */
+
+        /* --- KONTAKTY A FORMULÁŘ --- */
+        .kontaktni-pruh {
+            background: var(--barva-modra-tmava);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 4px solid var(--barva-hlavni);
+        }
+
+        .kontakt-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            padding: 60px 0;
+        }
+
+        .formular-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .form-skupina { margin-bottom: 20px; }
+        .form-skupina label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px;}
+        
+        .form-skupina input, .form-skupina textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* --- PATIČKA --- */
+        footer {
+            background: #020617;
+            color: #94a3b8;
+            padding: 60px 0 20px 0;
+        }
+
+        .paticka-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* Whatsapp plovoucí tlačítko */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        /* --- RESPONZIVITA (PRO MOBILY) --- */
+        @media (max-width: 768px) {
+            .odkazy { display: none; } /* Skryjeme PC menu */
+            .mobil-menu-btn { display: block; } /* Zobrazíme mobilní tlačítko */
+            
+            .hero h1 { font-size: 40px; }
+            .hero-tlacitka { flex-direction: column; }
+            
+            .benefity-grid, .grid-2, .grid-3, .kontakt-grid, .paticka-grid {
+                grid-template-columns: 1fr; /* Na mobilu vše pod sebe */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HLAVNÍ NAVIGACE -->
+    <header>
+        <div class="kontejner menu-lista">
+            <!-- Logo (kliknutím přepne na Domů) -->
+            <div class="logo" onclick="prepniStranku('domu')">
+                <i class="fa-solid fa-bus"></i>
+                <span>RB<span class="akcent">GL</span></span>
+            </div>
+
+            <!-- Odkazy pro Počítače -->
+            <nav class="odkazy" id="pc-menu">
+                <a onclick="prepniStranku('domu')" class="aktivni" id="nav-domu">Domů</a>
+                <a onclick="prepniStranku('sluzby')" id="nav-sluzby">Služby</a>
+                <a onclick="prepniStranku('vozovy-park')" id="nav-vozovy-park">Vozový park</a>
+                <a onclick="prepniStranku('o-nas')" id="nav-o-nas">O nás</a>
+                <button onclick="prepniStranku('kontakt')" class="btn-hlavni" id="nav-kontakt">Kontakt</button>
+            </nav>
+
+            <!-- Tlačítko (Hamburger) pro Mobily -->
+            <button class="mobil-menu-btn" onclick="prepniMobilniMenu()">
+                <i class="fa-solid fa-bars" id="mobil-ikona"></i>
+            </button>
+        </div>
+
+        <!-- Odkazy pro Mobily (Skryté v základu) -->
+        <nav class="mobilni-menu" id="mobil-menu" style="display: none; background: #1e293b; padding: 20px;">
+            <a onclick="prepniStranku('domu')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Domů</a>
+            <a onclick="prepniStranku('sluzby')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Služby</a>
+            <a onclick="prepniStranku('vozovy-park')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Vozový park</a>
+            <a onclick="prepniStranku('kontakt')" style="display:block; padding:15px; color:white; font-weight:bold;">Kontakt</a>
+        </nav>
+    </header>
+
+    <!-- ZDE ZAČÍNÁ OBSAH JEDNOTLIVÝCH STRÁNEK -->
+    <main>
+
+        <!-- ============================================== -->
+        <!-- 1. STRÁNKA: DOMŮ                               -->
+        <!-- ============================================== -->
+        <section id="domu" class="stranka zobrazena">
+            
+            <div class="hero">
+                <div class="kontejner">
+                    <h1>Spolehlivá autobusová doprava po <span>celé Evropě</span></h1>
+                    <p>Moderní vozový park, profesionální řidiči, férové ceny. Přepravíme vás bezpečně, pohodlně a včas. RB Global Logistik s. r. o.</p>
+                    
+                    <div class="hero-tlacitka">
+                        <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
+                        <a href="tel:+420604991449" class="btn-vedlejsi"><i class="fa-solid fa-phone"></i> Zavolat ihned</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefity-sekce">
+                <div class="kontejner benefity-grid">
+                    <div>
+                        <i class="fa-solid fa-shield-halved benefit-ikona"></i>
+                        <h3>Spolehlivost</h3>
+                        <p>Přijedeme včas, bezpečně vás dovezeme do cíle. Na naše řidiče se můžete 100% spolehnout.</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-bus benefit-ikona" style="color: #3b82f6;"></i>
+                        <h3>Moderní vozidla</h3>
+                        <p>Čisté a klimatizované autobusy s pohodlnými sedadly pro maximální komfort.</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-users benefit-ikona" style="color: #22c55e;"></i>
+                        <h3>Individuální přístup</h3>
+                        <p>Zájezdy, firmy, školy. Trasu i cenu vám připravíme na míru vašim přesným požadavkům.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 80px 0; background: #f8fafc;">
+                <div class="kontejner text-center" style="text-align: center; margin-bottom: 40px;">
+                    <h2>Stručný přehled našeho vozového parku</h2>
+                </div>
+                <div class="kontejner grid-3">
+                    <div class="karta">
+                        <div class="karta-obrazek"><i class="fa-solid fa-bus"></i></div>
+                        <div class="karta-obsah">
+                            <h3>Mercedes-Benz Tourismo</h3>
+                            <p style="color:var(--barva-hlavni); font-weight:bold; margin-bottom:15px;">Velký zájezdový autobus</p>
+                            <ul>
+                                <li><i class="fa-solid fa-check"></i> Klimatizace</li>
+                                <li><i class="fa-solid fa-check"></i> WC a kávovar</li>
+                            </ul>
+                            <button onclick="prepniStranku('kontakt')" style="width:100%; padding:15px; border-radius:8px; border:1px solid #cbd5e1; cursor:pointer; background:white;">Přejít na kontakt</button>
+                        </div>
+                    </div>
+                    <div class="karta">
+                        <div class="karta-obrazek"><i class="fa-solid fa-van-shuttle"></i></div>
+                        <div class="karta-obsah">
+                            <h3>Mercedes-Benz Sprinter</h3>
+                            <p style="color:var(--barva-hlavni); font-weight:bold; margin-bottom:15px;">Minibus</p>
+                            <ul>
+                                <li><i class="fa-solid fa-check"></i> Klimatizace prostoru</li>
+                                <li><i class="fa-solid fa-check"></i> Pohodlná sedadla</li>
+                            </ul>
+                            <button onclick="prepniStranku('kontakt')" style="width:100%; padding:15px; border-radius:8px; border:1px solid #cbd5e1; cursor:pointer; background:white;">Přejít na kontakt</button>
+                        </div>
+                    </div>
+                    <div class="karta">
+                        <div class="karta-obrazek"><i class="fa-solid fa-van-shuttle"></i></div>
+                        <div class="karta-obsah">
+                            <h3>Iveco Daily</h3>
+                            <p style="color:var(--barva-hlavni); font-weight:bold; margin-bottom:15px;">Minibus</p>
+                            <ul>
+                                <li><i class="fa-solid fa-check"></i> Praktický prostor</li>
+                                <li><i class="fa-solid fa-check"></i> Spolehlivost</li>
+                            </ul>
+                            <button onclick="prepniStranku('kontakt')" style="width:100%; padding:15px; border-radius:8px; border:1px solid #cbd5e1; cursor:pointer; background:white;">Přejít na kontakt</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 2. STRÁNKA: SLUŽBY                             -->
+        <!-- ============================================== -->
+        <section id="sluzby" class="stranka">
+            <div class="hero" style="padding: 60px 0; text-align: center;">
+                <div class="kontejner">
+                    <h1>Naše služby</h1>
+                    <p style="margin: 0 auto;">Pro koho jezdíme a co nabízíme</p>
+                </div>
+            </div>
+
+            <div class="kontejner grid-2" style="margin-top: 60px;">
+                <div class="karta">
+                    <div class="karta-obsah">
+                        <i class="fa-solid fa-earth-europe benefit-ikona"></i>
+                        <h3>Zájezdy po ČR a Evropě</h3>
+                        <p>Zajišťujeme poznávací i pobytové zájezdy po celé České republice a do všech evropských destinací.</p>
+                        <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="karta">
+                    <div class="karta-obsah">
+                        <i class="fa-solid fa-briefcase benefit-ikona" style="color:#0ea5e9;"></i>
+                        <h3>Firemní doprava</h3>
+                        <p>Teambuildingy, večírky, konference. Reprezentativní doprava pro vaše zaměstnance a obchodní partnery.</p>
+                        <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 3. STRÁNKA: VOZOVÝ PARK                        -->
+        <!-- ============================================== -->
+        <section id="vozovy-park" class="stranka">
+            <div class="hero" style="padding: 60px 0; text-align: center;">
+                <div class="kontejner">
+                    <h1>Vozový park</h1>
+                    <p style="margin: 0 auto;">Čím vás svezeme</p>
+                </div>
+            </div>
+
+            <div class="kontejner" style="margin-top: 60px;">
+                <!-- Zde byste v budoucnu vložili velkou fotku Mercedesu atd. -->
+                <div class="karta" style="display:flex; flex-wrap:wrap; margin-bottom:40px;">
+                    <div style="flex:1; min-width:300px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; min-height:300px;">
+                        [Místo pro reálnou fotku - Mercedes Tourismo]
+                    </div>
+                    <div style="flex:1; padding:40px; min-width:300px;">
+                        <h2>Mercedes-Benz Tourismo</h2>
+                        <p style="color:var(--barva-hlavni); font-weight:bold; font-size:20px; margin: 10px 0;">Kapacita: 50 + 1 + 1 míst</p>
+                        <p>Náš největší a nejluxusnější autobus. Ideální pro dálkové cesty po Evropě. Nabízí maximální prostor pro nohy.</p>
+                        <ul style="list-style:none; margin: 20px 0;">
+                            <li>✔️ Automatická klimatizace</li>
+                            <li>✔️ 2x LCD Monitory</li>
+                            <li>✔️ WC a Kávovar</li>
+                            <li>✔️ Polohovatelná sedadla</li>
+                        </ul>
+                        <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Mám zájem - Kontakt</button>
+                    </div>
+                </div>
+
+                <div class="karta" style="display:flex; flex-wrap:wrap; margin-bottom:40px; flex-direction: row-reverse;">
+                    <div style="flex:1; min-width:300px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; min-height:300px;">
+                        [Místo pro reálnou fotku - Mercedes Sprinter bílá]
+                    </div>
+                    <div style="flex:1; padding:40px; min-width:300px;">
+                        <h2>Mercedes-Benz Sprinter Tourine</h2>
+                        <p style="color:var(--barva-hlavni); font-weight:bold; font-size:20px; margin: 10px 0;">Minibus</p>
+                        <p>Kompaktní a komfortní minibus v bílé barvě. Skvělá volba pro menší skupiny, které nechtějí slevit z pohodlí na cestách.</p>
+                        <ul style="list-style:none; margin: 20px 0;">
+                            <li>✔️ Klimatizace prostoru</li>
+                            <li>✔️ Pohodlná sedadla</li>
+                            <li>✔️ Tónovaná skla</li>
+                        </ul>
+                        <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Mám zájem - Kontakt</button>
+                    </div>
+                </div>
+
+                <div class="karta" style="display:flex; flex-wrap:wrap; margin-bottom:40px;">
+                    <div style="flex:1; min-width:300px; background:#e2e8f0; display:flex; align-items:center; justify-content:center; min-height:300px;">
+                        [Místo pro reálnou fotku - Iveco Daily bílá]
+                    </div>
+                    <div style="flex:1; padding:40px; min-width:300px;">
+                        <h2>Iveco Daily</h2>
+                        <p style="color:var(--barva-hlavni); font-weight:bold; font-size:20px; margin: 10px 0;">Minibus</p>
+                        <p>Praktický a spolehlivý bílý minibus. Ideální pro transfery na letiště, firemní akce nebo kratší výlety.</p>
+                        <ul style="list-style:none; margin: 20px 0;">
+                            <li>✔️ Dostatek prostoru</li>
+                            <li>✔️ Bezpečná přeprava</li>
+                            <li>✔️ Flexibilní využití</li>
+                        </ul>
+                        <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Mám zájem - Kontakt</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 4. STRÁNKA: O NÁS                              -->
+        <!-- ============================================== -->
+        <section id="o-nas" class="stranka">
+            <div class="hero" style="padding: 60px 0; text-align: center;">
+                <div class="kontejner">
+                    <h1>O nás</h1>
+                </div>
+            </div>
+            
+            <div class="kontejner grid-2" style="margin-top: 60px;">
+                <div>
+                    <h2>Na cestách po celé Evropě</h2>
+                    <br>
+                    <p>Začínali jsme se snem dělat dopravu jinak – spolehlivě, lidsky a s úsměvem. Dnes provozujeme flotilu moderních autobusů, ale náš přístup se nezměnil.</p>
+                    <br>
+                    <p>Nejsme anonymní korporace. Známe osobně každého našeho řidiče a na stavu našich vozidel si zakládáme. Víme, že když vezeme školní výlet, svěřujete nám to nejcennější. Když vezeme vaši firmu, reprezentujeme i vaši značku.</p>
+                    <br>
+                    <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Kontaktujte nás</button>
+                </div>
+                <div style="background:#e2e8f0; border-radius:16px; display:flex; align-items:center; justify-content:center;">
+                    [Místo pro vaši fotku]
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- 5. STRÁNKA: KONTAKT A FORMULÁŘ                 -->
+        <!-- ============================================== -->
+        <section id="kontakt" class="stranka">
+            <div class="kontaktni-pruh">
+                <div class="kontejner" style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
+                    <div>
+                        <div style="font-size:12px; text-transform:uppercase; letter-spacing:2px; color:#cbd5e1;">Zavolejte nám</div>
+                        <div style="font-size:36px; font-weight:bold;">+420 604 991 449</div>
+                    </div>
+                    <div>
+                        <div style="font-size:12px; text-transform:uppercase; letter-spacing:2px; color:#cbd5e1;">Napište nám</div>
+                        <div style="font-size:36px; font-weight:bold;">info@rbgl.cz</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kontejner kontakt-grid">
+                <!-- LEVÁ ČÁST: Poptávkový formulář -->
+                <div class="formular-box">
+                    <h2>Napište nám</h2>
+                    <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
+                    
+                    <!-- ZMĚNA: Použito čisté HTML odeslání (přidáno target="_blank" pro bezpečné odeslání z náhledu) -->
+                    <form action="https://formsubmit.co/info@rbgl.cz" method="POST" target="_blank">
+                        <!-- Konfigurace pro FormSubmit -->
+                        <input type="hidden" name="_subject" value="Nová zpráva z webu RBGL">
+                        <input type="hidden" name="_template" value="table">
+                        <!-- Upozornění: Odstranil jsem vypnutí Captchy, pro první aktivaci je lepší ji nechat zapnutou -->
+
+                        <div class="form-skupina">
+                            <label>Jméno / Firma *</label>
+                            <input type="text" name="Jmeno" required placeholder="Jan Novák">
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                            <div class="form-skupina">
+                                <label>E-mail *</label>
+                                <input type="email" name="Email" required placeholder="jan@email.cz">
+                            </div>
+                            <div class="form-skupina">
+                                <label>Telefon</label>
+                                <input type="text" name="Telefon" placeholder="+420 ...">
+                            </div>
+                        </div>
+                        <div class="form-skupina">
+                            <label>Datum a trasa jízdy</label>
+                            <input type="text" name="Trasa" placeholder="Např. 15.8., Praha -> Vídeň a zpět">
+                        </div>
+                        <div class="form-skupina">
+                            <label>Doplňující informace (počet osob...)</label>
+                            <textarea rows="4" name="Zprava" placeholder="Potřebujeme odvézt 40 dětí..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-hlavni" style="width:100%; font-size:18px;">Odeslat zprávu</button>
+                    </form>
+                </div>
+
+                <!-- PRAVÁ ČÁST: Firemní údaje -->
+                <div>
+                    <div class="karta" style="padding:40px; margin-bottom:30px;">
+                        <h3 style="margin-bottom:20px;">Fakturační údaje</h3>
+                        <p><strong>RB Global Logistik s. r. o.</strong></p>
+                        <p>Zábřeh<br>Česká republika</p>
+                        <br>
+                        <p>IČO: 27806782 <br>DIČ: CZ27806782</p>
+                        <p style="font-size:12px; color:#94a3b8; margin-top:20px;">Společnost je zapsána v obchodním rejstříku.</p>
+                    </div>
+                    
+                    <!-- Rámeček pro Google Mapu -->
+                    <div style="background:#e2e8f0; height:300px; border-radius:16px; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#64748b; overflow:hidden;">
+                        <!-- Mapa vložená přes iframe (nastavena na 100% šířky i výšky) -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d82280.92865956303!2d16.774498582470525!3d49.874786552118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471211e39077aa09%3A0x400af0f66162ed0!2zWsOhYsWZZWgsIDc4OSAwMSBaw6FixZllaA!5e0!3m2!1scs!2scz!4v1774956620460!5m2!1scs!2scz" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PATIČKA WEBU -->
+    <footer>
+        <div class="kontejner paticka-grid">
+            <div>
+                <h3 style="color:white; margin-bottom:15px;"><i class="fa-solid fa-bus" style="color:var(--barva-hlavni);"></i> RB<span style="color:var(--barva-hlavni);">GL</span></h3>
+                <p>Spolehlivá autobusová doprava pro firmy, školy i soukromé akce po celé Evropě.</p>
+            </div>
+            <div>
+                <h4 style="color:white; margin-bottom:15px;">Odkazy</h4>
+                <p><a onclick="prepniStranku('sluzby')" style="color:#94a3b8; cursor:pointer;">Naše služby</a></p>
+                <p><a onclick="prepniStranku('vozovy-park')" style="color:#94a3b8; cursor:pointer;">Vozový park</a></p>
+            </div>
+            <div>
+                <h4 style="color:white; margin-bottom:15px;">Kontakt</h4>
+                <p>📞 +420 604 991 449</p>
+                <p>✉️ info@rbgl.cz</p>
+                <p>📍 Zábřeh, ČR</p>
+            </div>
+        </div>
+        <div class="kontejner" style="text-align:center; border-top:1px solid #1e293b; padding-top:20px;">
+            &copy; 2026 RB Global Logistik s. r. o. Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <!-- Tlačítko WhatsApp vpravo dole -->
+    <a href="https://wa.me/420604991449" target="_blank" class="whatsapp-btn" title="Napsat na WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- ================================================================= -->
+    <!-- NÁSLEDUJÍCÍ ČÁST (AŽ DO </script>) BY NORMÁLNĚ BYLA V: script.js  -->
+    <!-- V HTML byste na ni odkázal takto na konci body: <script src="script.js"></script> -->
+    <!-- ================================================================= -->
+    <script>
+        // --- 1. FUNKCE PRO PŘEPÍNÁNÍ STRÁNEK (ZÁLOŽEK) ---
+        function prepniStranku(idStranky) {
+            
+            // a) Skryjeme všechny sekce (najdeme všechny elementy s třídou 'stranka' a odebereme jim třídu 'zobrazena')
+            const vsechnyStranky = document.querySelectorAll('.stranka');
+            vsechnyStranky.forEach(stranka => {
+                stranka.classList.remove('zobrazena');
+            });
+
+            // b) Zobrazíme pouze tu sekci, na kterou uživatel klikl
+            const cilovaStranka = document.getElementById(idStranky);
+            if(cilovaStranka) {
+                cilovaStranka.classList.add('zobrazena');
+            }
+
+            // c) Změníme barvu odkazu v horním menu, aby bylo jasné, kde jsme
+            const vsechnyOdkazy = document.querySelectorAll('#pc-menu a');
+            vsechnyOdkazy.forEach(odkaz => {
+                odkaz.classList.remove('aktivni');
+            });
+            const aktivniOdkaz = document.getElementById('nav-' + idStranky);
+            if(aktivniOdkaz) {
+                aktivniOdkaz.classList.add('aktivni');
+            }
+
+            // d) Vždy po kliknutí odscrolujeme prohlížeč úplně nahoru
+            window.scrollTo(0, 0);
+
+            // e) Pokud jsme na mobilu, rovnou schováme mobilní menu po kliknutí na odkaz
+            document.getElementById('mobil-menu').style.display = 'none';
+        }
+
+        // --- 2. FUNKCE PRO ROZBALENÍ MENU NA MOBILU ---
+        function prepniMobilniMenu() {
+            const menu = document.getElementById('mobil-menu');
+            const ikona = document.getElementById('mobil-ikona');
+            
+            // Pokud je menu skryté, zobraz ho (a změň ikonku na křížek)
+            if (menu.style.display === 'none') {
+                menu.style.display = 'block';
+                ikona.classList.remove('fa-bars');
+                ikona.classList.add('fa-xmark');
+            } 
+            // Pokud je zobrazené, skryj ho (a vrať ikonku hamburgeru)
+            else {
+                menu.style.display = 'none';
+                ikona.classList.remove('fa-xmark');
+                ikona.classList.add('fa-bars');
+            }
+        }
+        
+        // Z JavaScriptu byla zcela odstraněna funkce odeslatFormular.
+        // Nyní se odeslání stará čistě HTML formulář výše (form action="...").
+    </script>
+</body>
+</html>
