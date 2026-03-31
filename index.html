@@ -621,11 +621,11 @@
                     <h2>Napište nám</h2>
                     <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
                     
-                    <!-- ZMĚNA: Použito čisté HTML odeslání (přidáno target="_blank" pro bezpečné odeslání z náhledu) -->
-                    <!-- ZMĚNA 2: Nyní používá bezpečný token místo odkrytého emailu -->
-                    <form action="https://formsubmit.co/2ab8a0cf5e56aef50591384570cf5384" method="POST" target="_blank">
+                    <!-- Skrytý iframe pro odeslání na pozadí bez opuštění stránky -->
+                    <iframe name="skryty_iframe" id="skryty_iframe" style="display:none;"></iframe>
+
+                    <form id="poptavka-form" action="https://formsubmit.co/2ab8a0cf5e56aef50591384570cf5384" method="POST" target="skryty_iframe" onsubmit="zpracovatOdesilani()">
                         <!-- Konfigurace pro FormSubmit -->
-                        <input type="hidden" name="_next" value="https://rbgl.cz">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_subject" value="Nová zpráva z webu RBGL">
                         <input type="hidden" name="_template" value="table">
@@ -656,6 +656,13 @@
                         
                         <button type="submit" class="btn-hlavni" style="width:100%; font-size:18px;">Odeslat zprávu</button>
                     </form>
+
+                    <!-- Text, který se zobrazí po odeslání -->
+                    <div id="zprava-uspech" style="display:none; text-align:center; padding:40px 0; color:#16a34a;">
+                        <i class="fa-solid fa-circle-check" style="font-size:60px; margin-bottom:20px;"></i>
+                        <h3>Děkujeme za zprávu!</h3>
+                        <p>Úspěšně jsme ji přijali. Brzy se vám ozveme na váš e-mail nebo telefon.</p>
+                    </div>
                 </div>
 
                 <!-- PRAVÁ ČÁST: Firemní údaje -->
@@ -765,8 +772,24 @@
             }
         }
         
-        // Z JavaScriptu byla zcela odstraněna funkce odeslatFormular.
-        // Nyní se odeslání stará čistě HTML formulář výše (form action="...").
+        // --- 3. FUNKCE PRO ODESLÁNÍ FORMULÁŘE NA POZADÍ ---
+        let formularOdeslan = false;
+
+        function zpracovatOdesilani() {
+            formularOdeslan = true;
+            const tlacitko = document.querySelector('#poptavka-form button[type="submit"]');
+            tlacitko.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Odesílám...';
+            tlacitko.style.opacity = '0.7';
+        }
+
+        // Naslouchání na načtení iframu (zabrání to ReferenceError při prvním načtení stránky)
+        document.getElementById('skryty_iframe').addEventListener('load', function() {
+            if (formularOdeslan) {
+                // Skryje formulář a ukáže zprávu o úspěchu
+                document.getElementById('poptavka-form').style.display = 'none';
+                document.getElementById('zprava-uspech').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
