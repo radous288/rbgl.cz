@@ -619,6 +619,8 @@
                 <!-- LEVÁ ČÁST: Poptávkový formulář -->
                 <div class="formular-box">
                     <h2>Napište nám</h2>
+                    <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
+                    
                     <form id="poptavka-form" onsubmit="odeslatFormular(event)">
                         <!-- Konfigurace pro FormSubmit přes JS (skrytá pole už nepotřebujeme v HTML) -->
                         <div class="form-skupina">
@@ -766,12 +768,6 @@
         function odeslatFormular(udalost) {
             udalost.preventDefault();
 
-            // Ochrana proti falešnému testování přímo z počítače (file://)
-            if (window.location.protocol === 'file:') {
-                alert("⚠️ POZOR: Odeslání bylo zablokováno.\n\nFormulář nelze odesílat přímo ze souboru v počítači. Služba FormSubmit to automaticky blokuje kvůli ochraně proti spamu.\n\nAby e-maily skutečně chodily, musíte tento web nahrát na internet (např. do Webnode) a odeslat zprávu odtamtud.");
-                return; // Zastaví odesílání, takže web už nelže, že zpráva odešla
-            }
-
             const tlacitko = document.querySelector('#poptavka-form button[type="submit"]');
             const formular = document.getElementById('poptavka-form');
             const uspechZprava = document.getElementById('zprava-uspech');
@@ -781,20 +777,23 @@
             tlacitko.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Odesílám...';
             tlacitko.style.opacity = '0.7';
 
-            // Přidání bezpečnostních skrytých hodnot pro Formsubmit do odesílaných dat
+            // Získání dat z formuláře a převedení na JSON
             const dataFormulare = new FormData(formular);
-            dataFormulare.append('_subject', 'Nová zpráva z webu RBGL');
-            dataFormulare.append('_captcha', 'false');
-            dataFormulare.append('_template', 'table');
-            dataFormulare.append('_honey', '');
+            const formJSON = Object.fromEntries(dataFormulare.entries());
+            
+            // Přidání bezpečnostních a skrytých hodnot pro Formsubmit
+            formJSON._subject = 'Nová zpráva z webu RBGL';
+            formJSON._captcha = 'false';
+            formJSON._template = 'table';
 
-            // Odeslání pomocí JavaScriptu (AJAX - bez přesměrování stránky)
-            fetch("https://formsubmit.co/ajax/info@rbgl.cz", {
+            // Odeslání pomocí JavaScriptu (AJAX) s JSON formátem
+            fetch("https://formsubmit.co/ajax/2ab8a0cf5e56aef50591384570cf5384", {
                 method: "POST",
-                body: dataFormulare,
                 headers: {
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                body: JSON.stringify(formJSON)
             })
             .then(odpoved => odpoved.json())
             .then(data => {
@@ -808,7 +807,8 @@
                 }
             })
             .catch(chyba => {
-                alert("Chyba spojení. Pokud to zkoušíte z nějakého lokálního editoru, e-mail se bohužel neodešle.");
+                console.error(chyba);
+                alert("Nastala chyba při komunikaci se serverem. Zkuste to prosím znovu.");
                 tlacitko.innerHTML = puvodniText;
                 tlacitko.style.opacity = '1';
             });
