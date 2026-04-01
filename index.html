@@ -621,16 +621,22 @@
                     <h2>Napište nám</h2>
                     <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
                     
-                    <form id="poptavka-form" onsubmit="odeslatFormular(event)">
-                        <!-- Konfigurace pro FormSubmit přes JS (skrytá pole už nepotřebujeme v HTML) -->
+                    <form action="https://formsubmit.co/2ab8a0cf5e56aef50591384570cf5384" method="POST">
+                        <!-- Konfigurace pro FormSubmit přesně podle dokumentace -->
+                        <input type="hidden" name="_subject" value="Nová zpráva z webu RBGL">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_next" value="https://rbgl.cz">
+                        <input type="text" name="_honey" style="display:none">
+
                         <div class="form-skupina">
                             <label>Jméno / Firma *</label>
-                            <input type="text" name="Jmeno" required placeholder="Jan Novák">
+                            <input type="text" name="name" required placeholder="Jan Novák">
                         </div>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                             <div class="form-skupina">
                                 <label>E-mail *</label>
-                                <input type="email" name="Email" required placeholder="jan@email.cz">
+                                <input type="email" name="email" required placeholder="jan@email.cz">
                             </div>
                             <div class="form-skupina">
                                 <label>Telefon</label>
@@ -648,13 +654,6 @@
                         
                         <button type="submit" class="btn-hlavni" style="width:100%; font-size:18px;">Odeslat zprávu</button>
                     </form>
-
-                    <!-- Text, který se zobrazí po odeslání -->
-                    <div id="zprava-uspech" style="display:none; text-align:center; padding:40px 0; color:#16a34a;">
-                        <i class="fa-solid fa-circle-check" style="font-size:60px; margin-bottom:20px;"></i>
-                        <h3>Děkujeme za zprávu!</h3>
-                        <p>Úspěšně jsme ji přijali. Brzy se vám ozveme na váš e-mail nebo telefon.</p>
-                    </div>
                 </div>
 
                 <!-- PRAVÁ ČÁST: Firemní údaje -->
@@ -762,56 +761,6 @@
                 ikona.classList.remove('fa-xmark');
                 ikona.classList.add('fa-bars');
             }
-        }
-        
-        // --- 3. REÁLNÉ ODESLÁNÍ FORMULÁŘE NA POZADÍ (AJAX) ---
-        function odeslatFormular(udalost) {
-            udalost.preventDefault();
-
-            const tlacitko = document.querySelector('#poptavka-form button[type="submit"]');
-            const formular = document.getElementById('poptavka-form');
-            const uspechZprava = document.getElementById('zprava-uspech');
-            const puvodniText = tlacitko.innerHTML;
-
-            // Změna textu tlačítka během odesílání
-            tlacitko.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Odesílám...';
-            tlacitko.style.opacity = '0.7';
-
-            // Získání dat z formuláře a převedení na JSON
-            const dataFormulare = new FormData(formular);
-            const formJSON = Object.fromEntries(dataFormulare.entries());
-            
-            // Přidání bezpečnostních a skrytých hodnot pro Formsubmit
-            formJSON._subject = 'Nová zpráva z webu RBGL';
-            formJSON._captcha = 'false';
-            formJSON._template = 'table';
-
-            // Odeslání pomocí JavaScriptu (AJAX) s JSON formátem
-            fetch("https://formsubmit.co/ajax/2ab8a0cf5e56aef50591384570cf5384", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formJSON)
-            })
-            .then(odpoved => odpoved.json())
-            .then(data => {
-                if(data.success) {
-                    formular.style.display = 'none';
-                    uspechZprava.style.display = 'block';
-                } else {
-                    alert("Odeslání selhalo: Zkontrolujte prosím své připojení.");
-                    tlacitko.innerHTML = puvodniText;
-                    tlacitko.style.opacity = '1';
-                }
-            })
-            .catch(chyba => {
-                console.error(chyba);
-                alert("Nastala chyba při komunikaci se serverem. Zkuste to prosím znovu.");
-                tlacitko.innerHTML = puvodniText;
-                tlacitko.style.opacity = '1';
-            });
         }
     </script>
 </body>
