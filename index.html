@@ -621,16 +621,8 @@
                     <h2>Napište nám</h2>
                     <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
                     
-                    <!-- Skrytý iframe pro odeslání na pozadí bez opuštění stránky -->
-                    <iframe name="skryty_iframe" id="skryty_iframe" style="display:none;"></iframe>
-
-                    <form id="poptavka-form" action="https://formsubmit.co/2ab8a0cf5e56aef50591384570cf5384" method="POST" target="skryty_iframe" onsubmit="zpracovatOdesilani()">
-                        <!-- Konfigurace pro FormSubmit -->
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_subject" value="Nová zpráva z webu RBGL">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="text" name="_honey" style="display:none">
-
+                    <form id="poptavka-form" onsubmit="odeslatFormular(event)">
+                        <!-- Konfigurace pro FormSubmit přes JS (skrytá pole už nepotřebujeme v HTML) -->
                         <div class="form-skupina">
                             <label>Jméno / Firma *</label>
                             <input type="text" name="Jmeno" required placeholder="Jan Novák">
@@ -772,24 +764,57 @@
             }
         }
         
-        // --- 3. FUNKCE PRO ODESLÁNÍ FORMULÁŘE NA POZADÍ ---
-        let formularOdeslan = false;
+        // --- 3. REÁLNÉ ODESLÁNÍ FORMULÁŘE NA POZADÍ (AJAX) ---
+        function odeslatFormular(udalost) {
+            udalost.preventDefault();
 
-        function zpracovatOdesilani() {
-            formularOdeslan = true;
+            // Ochrana proti falešnému testování přímo z počítače (file://)
+            if (window.location.protocol === 'file:') {
+                alert("⚠️ POZOR: Odeslání bylo zablokováno.\n\nFormulář nelze odesílat přímo ze souboru v počítači. Služba FormSubmit to automaticky blokuje kvůli ochraně proti spamu.\n\nAby e-maily skutečně chodily, musíte tento web nahrát na internet (např. do Webnode) a odeslat zprávu odtamtud.");
+                return; // Zastaví odesílání, takže web už nelže, že zpráva odešla
+            }
+
             const tlacitko = document.querySelector('#poptavka-form button[type="submit"]');
+            const formular = document.getElementById('poptavka-form');
+            const uspechZprava = document.getElementById('zprava-uspech');
+            const puvodniText = tlacitko.innerHTML;
+
+            // Změna textu tlačítka během odesílání
             tlacitko.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Odesílám...';
             tlacitko.style.opacity = '0.7';
-        }
 
-        // Naslouchání na načtení iframu (zabrání to ReferenceError při prvním načtení stránky)
-        document.getElementById('skryty_iframe').addEventListener('load', function() {
-            if (formularOdeslan) {
-                // Skryje formulář a ukáže zprávu o úspěchu
-                document.getElementById('poptavka-form').style.display = 'none';
-                document.getElementById('zprava-uspech').style.display = 'block';
-            }
-        });
+            // Přidání bezpečnostních skrytých hodnot pro Formsubmit do odesílaných dat
+            const dataFormulare = new FormData(formular);
+            dataFormulare.append('_subject', 'Nová zpráva z webu RBGL');
+            dataFormulare.append('_captcha', 'false');
+            dataFormulare.append('_template', 'table');
+            dataFormulare.append('_honey', '');
+
+            // Odeslání pomocí JavaScriptu (AJAX - bez přesměrování stránky)
+            fetch("https://formsubmit.co/ajax/2ab8a0cf5e56aef50591384570cf5384", {
+                method: "POST",
+                body: dataFormulare,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(odpoved => odpoved.json())
+            .then(data => {
+                if(data.success) {
+                    formular.style.display = 'none';
+                    uspechZprava.style.display = 'block';
+                } else {
+                    alert("Odeslání selhalo: Zkontrolujte prosím své připojení.");
+                    tlacitko.innerHTML = puvodniText;
+                    tlacitko.style.opacity = '1';
+                }
+            })
+            .catch(chyba => {
+                alert("Chyba spojení. Pokud to zkoušíte z nějakého lokálního editoru, e-mail se bohužel neodešle.");
+                tlacitko.innerHTML = puvodniText;
+                tlacitko.style.opacity = '1';
+            });
+        }
     </script>
 </body>
 </html>
