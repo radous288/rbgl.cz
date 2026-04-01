@@ -619,8 +619,6 @@
                 <!-- LEVÁ ČÁST: Poptávkový formulář -->
                 <div class="formular-box">
                     <h2>Napište nám</h2>
-                    <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
-                    
                     <form id="poptavka-form" onsubmit="odeslatFormular(event)">
                         <!-- Konfigurace pro FormSubmit přes JS (skrytá pole už nepotřebujeme v HTML) -->
                         <div class="form-skupina">
@@ -791,7 +789,7 @@
             dataFormulare.append('_honey', '');
 
             // Odeslání pomocí JavaScriptu (AJAX - bez přesměrování stránky)
-            fetch("https://formsubmit.co/ajax/2ab8a0cf5e56aef50591384570cf5384", {
+            fetch("https://formsubmit.co/ajax/info@rbgl.cz", {
                 method: "POST",
                 body: dataFormulare,
                 headers: {
