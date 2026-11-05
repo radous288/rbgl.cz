@@ -6,30 +6,26 @@
     <link rel="icon" href="logo.png">
     <title>RB Global Logistik - Autobusová doprava</title>
     
-    <!-- Ikonky FontAwesome (abychom měli hezké obrázky autobusu, telefonu atd.) -->
+    <!-- Ikonky FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Písmo z Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
 
-    <!-- ================================================================= -->
-    <!-- NÁSLEDUJÍCÍ ČÁST (AŽ DO </style>) BY NORMÁLNĚ BYLA V: styly.css   -->
-    <!-- V HTML byste na ni odkázal takto: <link rel="stylesheet" href="styly.css"> -->
-    <!-- ================================================================= -->
     <style>
         /* --- ZÁKLADNÍ NASTAVENÍ A PROMĚNNÉ --- */
         :root {
-            --barva-pozadi: #f0f4f8; /* Jemnější pozadí */
+            --barva-pozadi: #f0f4f8;
             --barva-textu: #1e293b;
-            --barva-modra-tmava: #0f2942; /* Přátelštější a modernější tmavě modrá */
-            --barva-hlavni: #2563eb; /* Moderní sympatická modrá místo agresivní červené */
+            --barva-modra-tmava: #0f2942;
+            --barva-hlavni: #2563eb;
             --barva-hlavni-hover: #1d4ed8;
             --barva-bila: #ffffff;
             --sirka-obsahu: 1200px;
         }
 
         * {
-            box-sizing: border-box; /* Zabrání tomu, aby padding zvětšoval elementy */
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
@@ -41,7 +37,6 @@
             line-height: 1.6;
         }
 
-        /* Třída pro omezení šířky a vycentrování obsahu */
         .kontejner {
             max-width: var(--sirka-obsahu);
             margin: 0 auto;
@@ -52,7 +47,7 @@
         header {
             background-color: var(--barva-modra-tmava);
             color: var(--barva-bila);
-            position: sticky; /* Zůstane přilepené nahoře při scrollování */
+            position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -101,7 +96,7 @@
             background-color: var(--barva-hlavni);
             color: white;
             padding: 12px 24px;
-            border-radius: 30px; /* Modernější zaoblená tlačítka */
+            border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
             border: none;
@@ -112,11 +107,10 @@
 
         .btn-hlavni:hover {
             background-color: var(--barva-hlavni-hover);
-            transform: translateY(-2px); /* Mírné povyskočení */
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); /* Jemný stín u tlačítek */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
-        /* Mobilní menu tlačítko (skryté na PC) */
         .mobil-menu-btn {
             display: none;
             background: none;
@@ -126,14 +120,14 @@
             cursor: pointer;
         }
 
-        /* --- STRÁNKÁVÁNÍ (Zobrazování jen jedné sekce) --- */
+        /* --- STRÁNKÁVÁNÍ --- */
         .stranka {
-            display: none; /* Skryje všechny stránky */
-            animation: objeveni 0.5s; /* Hezký efekt při přepnutí */
+            display: none;
+            animation: objeveni 0.5s;
         }
 
         .stranka.zobrazena {
-            display: block; /* Zobrazí jen tu, která má třídu "zobrazena" */
+            display: block;
         }
 
         @keyframes objeveni {
@@ -198,7 +192,7 @@
 
         .benefity-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 sloupce vedle sebe */
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
             text-align: center;
         }
@@ -223,14 +217,14 @@
 
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 sloupce */
+            grid-template-columns: repeat(2, 1fr);
             gap: 40px;
             margin-bottom: 60px;
         }
 
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 sloupce */
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
             margin-bottom: 60px;
         }
@@ -245,7 +239,7 @@
 
         .karta-obrazek {
             height: 250px;
-            background-color: #ffffff; /* Bílý podklad pro fotky autobusů */
+            background-color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -255,20 +249,20 @@
         .karta-obrazek img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Fotka se nezdeformuje a zobrazí se celá */
+            object-fit: contain;
             padding: 20px;
             transition: transform 0.4s ease;
         }
 
         .karta:hover .karta-obrazek img {
-            transform: scale(1.05); /* Lehký zoom po najetí na kartu */
+            transform: scale(1.05);
         }
 
         .karta-obsah { padding: 40px; }
         .karta-obsah h3 { font-size: 24px; margin-bottom: 10px; }
         .karta-obsah ul { list-style: none; margin: 20px 0; }
         .karta-obsah li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        .karta-obsah li i { color: #22c55e; } /* Zelená fajfka */
+        .karta-obsah li i { color: #22c55e; }
 
         /* --- KONTAKTY A FORMULÁŘ --- */
         .kontaktni-pruh {
@@ -318,7 +312,6 @@
             margin-bottom: 40px;
         }
 
-        /* Whatsapp plovoucí tlačítko */
         .whatsapp-btn {
             position: fixed;
             bottom: 30px;
@@ -367,7 +360,7 @@
         .ref-karta:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
         .ref-logo { height: 90px; width: 100%; display: flex; align-items: center; justify-content: center; }
         .ref-logo img { max-width: 100%; max-height: 90px; object-fit: contain; }
-        a.ref-karta[href="#"] { pointer-events: none; } /* reference bez odkazu nejsou klikací */
+        a.ref-karta[href="#"] { pointer-events: none; }
 
         /* --- ZVĚTŠENÍ FOTKY --- */
         #lightbox { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.9); z-index: 2000; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
@@ -380,14 +373,14 @@
 
         /* --- RESPONZIVITA (PRO MOBILY) --- */
         @media (max-width: 768px) {
-            .odkazy { display: none; } /* Skryjeme PC menu */
-            .mobil-menu-btn { display: block; } /* Zobrazíme mobilní tlačítko */
+            .odkazy { display: none; }
+            .mobil-menu-btn { display: block; }
             
             .hero h1 { font-size: 40px; }
             .hero-tlacitka { flex-direction: column; }
             
             .benefity-grid, .grid-2, .grid-3, .kontakt-grid, .paticka-grid {
-                grid-template-columns: 1fr; /* Na mobilu vše pod sebe */
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -397,14 +390,11 @@
     <!-- HLAVNÍ NAVIGACE -->
     <header>
         <div class="kontejner menu-lista">
-            <!-- Logo (kliknutím přepne na Domů) -->
             <div class="logo" onclick="prepniStranku('domu')">
                 <img src="logo.png" alt="RB Global Logistik s.r.o." class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                <!-- Textové logo se ukáže jen dokud chybí soubor logo.png -->
                 <span class="logo-text" style="display:none"><i class="fa-solid fa-bus"></i><span>RB <span class="akcent">GLOBAL LOGISTIK s.r.o.</span></span></span>
             </div>
 
-            <!-- Odkazy pro Počítače -->
             <nav class="odkazy" id="pc-menu">
                 <a onclick="prepniStranku('domu')" class="aktivni" id="nav-domu">Domů</a>
                 <a onclick="prepniStranku('sluzby')" id="nav-sluzby">Služby</a>
@@ -415,13 +405,11 @@
                 <button onclick="prepniStranku('kontakt')" class="btn-hlavni" id="nav-kontakt">Kontakt</button>
             </nav>
 
-            <!-- Tlačítko (Hamburger) pro Mobily -->
             <button class="mobil-menu-btn" onclick="prepniMobilniMenu()">
                 <i class="fa-solid fa-bars" id="mobil-ikona"></i>
             </button>
         </div>
 
-        <!-- Odkazy pro Mobily (Skryté v základu) -->
         <nav class="mobilni-menu" id="mobil-menu" style="display: none; background: #1e293b; padding: 20px;">
             <a onclick="prepniStranku('domu')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Domů</a>
             <a onclick="prepniStranku('sluzby')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Služby</a>
@@ -433,12 +421,9 @@
         </nav>
     </header>
 
-    <!-- ZDE ZAČÍNÁ OBSAH JEDNOTLIVÝCH STRÁNEK -->
     <main>
 
-        <!-- ============================================== -->
-        <!-- 1. STRÁNKA: DOMŮ                               -->
-        <!-- ============================================== -->
+        <!-- 1. STRÁNKA: DOMŮ -->
         <section id="domu" class="stranka zobrazena">
             
             <div class="hero">
@@ -522,9 +507,7 @@
 
         </section>
 
-        <!-- ============================================== -->
-        <!-- 2. STRÁNKA: SLUŽBY                             -->
-        <!-- ============================================== -->
+        <!-- 2. STRÁNKA: SLUŽBY -->
         <section id="sluzby" class="stranka">
             <div class="hero" style="padding: 60px 0; text-align: center;">
                 <div class="kontejner">
@@ -536,7 +519,7 @@
             <div class="kontejner grid-2" style="margin-top: 60px; margin-bottom: 60px;">
                 <div class="karta">
                     <div class="karta-obsah">
-                        <i class="fa-solid fa-earth-europe benefit-ikona" style=""></i>
+                        <i class="fa-solid fa-earth-europe benefit-ikona"></i>
                         <h3>Zájezdy po ČR a Evropě</h3>
                         <p>Zajišťujeme poznávací i pobytové zájezdy po celé České republice a do všech evropských destinací.</p>
                         <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
@@ -569,9 +552,7 @@
             </div>
         </section>
 
-        <!-- ============================================== -->
-        <!-- 3. STRÁNKA: VOZOVÝ PARK                        -->
-        <!-- ============================================== -->
+        <!-- 3. STRÁNKA: VOZOVÝ PARK -->
         <section id="vozovy-park" class="stranka">
             <div class="hero" style="padding: 60px 0; text-align: center;">
                 <div class="kontejner">
@@ -581,10 +562,10 @@
             </div>
 
             <div class="kontejner" style="margin-top: 60px;">
-                <!-- Mercedes-Benz Tourismo -->
+                <!-- Mercedes-Benz Tourismo (vylet-25) -->
                 <div class="karta bus-radek">
                     <div class="bus-foto">
-                        <div class="galerie-bus" data-galerie="tourismo" data-max="8" data-alt="Mercedes-Benz Tourismo"></div>
+                        <div class="galerie-bus" data-galerie="vylet-25" data-max="1" data-alt="Mercedes-Benz Tourismo"></div>
                     </div>
                     <div class="bus-info">
                         <h2>Mercedes-Benz Tourismo</h2>
@@ -603,10 +584,10 @@
                     </div>
                 </div>
 
-                <!-- Mercedes-Benz Sprinter -->
+                <!-- Mercedes-Benz Sprinter (vylet-58) -->
                 <div class="karta bus-radek obracene">
                     <div class="bus-foto">
-                        <div class="galerie-bus" data-galerie="sprinter" data-max="8" data-alt="Mercedes-Benz Sprinter"></div>
+                        <div class="galerie-bus" data-galerie="vylet-58" data-max="1" data-alt="Mercedes-Benz Sprinter"></div>
                     </div>
                     <div class="bus-info">
                         <h2>Mercedes-Benz Sprinter</h2>
@@ -624,10 +605,10 @@
                     </div>
                 </div>
 
-                <!-- Iveco Daily Irisbus -->
+                <!-- Iveco Daily Irisbus (vylet-59) -->
                 <div class="karta bus-radek">
                     <div class="bus-foto">
-                        <div class="galerie-bus" data-galerie="iveco" data-max="8" data-alt="Iveco Daily Irisbus"></div>
+                        <div class="galerie-bus" data-galerie="vylet-59" data-max="1" data-alt="Iveco Daily Irisbus"></div>
                     </div>
                     <div class="bus-info">
                         <h2>Iveco Daily Irisbus</h2>
@@ -648,6 +629,7 @@
             </div>
         </section>
 
+        <!-- 4. STRÁNKA: FOTOGALERIE -->
         <section id="fotogalerie" class="stranka">
             <div class="hero" style="padding: 60px 0; text-align: center;">
                 <div class="kontejner">
@@ -657,10 +639,11 @@
             </div>
             <div class="kontejner" style="margin-top: 60px;">
                 <p id="vylety-prazdno" style="text-align:center; color:#64748b; margin-bottom:60px;">Fotogalerie se připravuje.</p>
-                <div class="vylety-grid" data-galerie="vylet" data-max="40" data-prazdno="vylety-prazdno"></div>
+                <div class="vylety-grid" data-galerie="vylet" data-max="65" data-prazdno="vylety-prazdno"></div>
             </div>
         </section>
 
+        <!-- 5. STRÁNKA: REFERENCE -->
         <section id="reference" class="stranka">
             <div class="hero" style="padding: 60px 0; text-align: center;">
                 <div class="kontejner">
@@ -668,8 +651,6 @@
                     <p style="margin: 0 auto;">Pro koho jezdíme</p>
                 </div>
             </div>
-            <!-- NOVÁ REFERENCE: zkopírujte jeden blok <a class="ref-karta">...</a>, změňte odkaz (href),
-                 název souboru loga (data-foto, bez přípony) a text. Logo uložte do složky "reference". -->
             <div class="kontejner reference-grid">
                 <a class="ref-karta" href="https://www.viscumaplastic.cz" target="_blank" rel="noopener"><div class="ref-logo"><img data-foto="viscuma-plastic" alt="Viscuma Plastic a.s." loading="lazy"></div><span>Viscuma Plastic a.s.</span></a>
                 <a class="ref-karta" href="https://www.miele.cz" target="_blank" rel="noopener"><div class="ref-logo"><img data-foto="miele-technika" alt="Miele technika s.r.o." loading="lazy"></div><span>Miele technika s.r.o.</span></a>
@@ -685,9 +666,7 @@
             </div>
         </section>
 
-        <!-- ============================================== -->
-        <!-- 4. STRÁNKA: O NÁS                              -->
-        <!-- ============================================== -->
+        <!-- 6. STRÁNKA: O NÁS -->
         <section id="o-nas" class="stranka">
             <div class="hero" style="padding: 60px 0; text-align: center;">
                 <div class="kontejner">
@@ -705,16 +684,13 @@
                     <br>
                     <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Kontaktujte nás</button>
                 </div>
-                <div style="background:#e2e8f0; border-radius:16px; display:flex; align-items:center; justify-content:center;">
-                    <!-- Zde můžete případně přidat další fotku (např. fotku týmu) stejným způsobem -->
-                    <i class="fa-solid fa-users" style="font-size: 60px; color: #94a3b8;"></i>
+                <div style="background:#e2e8f0; border-radius:16px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                    <img data-foto="vylet-1" alt="O nás - fotka týmu / autobusu" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
                 </div>
             </div>
         </section>
 
-        <!-- ============================================== -->
-        <!-- 5. STRÁNKA: KONTAKT A FORMULÁŘ                 -->
-        <!-- ============================================== -->
+        <!-- 7. STRÁNKA: KONTAKT A FORMULÁŘ -->
         <section id="kontakt" class="stranka">
             <div class="kontaktni-pruh">
                 <div class="kontejner" style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;">
@@ -730,13 +706,11 @@
             </div>
 
             <div class="kontejner kontakt-grid">
-                <!-- LEVÁ ČÁST: Poptávkový formulář -->
                 <div class="formular-box">
                     <h2>Napište nám</h2>
                     <p style="margin-bottom:20px; color:#64748b;">Odpovídáme do 24 hodin. Máte-li zájem o dopravu, zadejte detaily cesty a my se vám ozveme zpět.</p>
                     
                     <form action="https://formsubmit.co/2ab8a0cf5e56aef50591384570cf5384" method="POST">
-                        <!-- Konfigurace pro FormSubmit přesně podle dokumentace -->
                         <input type="hidden" name="_subject" value="Nová zpráva z webu RBGL">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
@@ -770,7 +744,6 @@
                     </form>
                 </div>
 
-                <!-- PRAVÁ ČÁST: Firemní údaje -->
                 <div>
                     <div class="karta" style="padding:40px; margin-bottom:30px;">
                         <h3 style="margin-bottom:20px;">Fakturační údaje</h3>
@@ -782,9 +755,7 @@
                         <p style="font-size:12px; color:#94a3b8; margin-top:20px;">Společnost je zapsána v obchodním rejstříku.</p>
                     </div>
                     
-                    <!-- Rámeček pro Google Mapu -->
                     <div style="background:#e2e8f0; height:300px; border-radius:16px; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#64748b; overflow:hidden;">
-                        <!-- Mapa vložená přes iframe (nastavena na 100% šířky i výšky) -->
                         <iframe src="https://www.google.com/maps?q=R%C3%A1jec+140%2C+789+01+Z%C3%A1b%C5%99eh&output=embed" title="Mapa – Rájec 140, Zábřeh" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
@@ -822,141 +793,138 @@
 
     <div id="lightbox" onclick="this.classList.remove('otevreny')"><img alt=""></div>
 
-    <!-- Tlačítko WhatsApp vpravo dole -->
     <a href="https://wa.me/420604991449" target="_blank" class="whatsapp-btn" title="Napsat na WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- ================================================================= -->
-    <!-- NÁSLEDUJÍCÍ ČÁST (AŽ DO </script>) BY NORMÁLNĚ BYLA V: script.js  -->
-    <!-- V HTML byste na ni odkázal takto na konci body: <script src="script.js"></script> -->
-    <!-- ================================================================= -->
-<script>
-    // --- 1. FUNKCE PRO PŘEPÍNÁNÍ STRÁNEK (ZÁLOŽEK) ---
-    function prepniStranku(idStranky) {
-        const vsechnyStranky = document.querySelectorAll('.stranka');
-        vsechnyStranky.forEach(stranka => {
-            stranka.classList.remove('zobrazena');
-        });
+    <script>
+        function prepniStranku(idStranky) {
+            const vsechnyStranky = document.querySelectorAll('.stranka');
+            vsechnyStranky.forEach(stranka => {
+                stranka.classList.remove('zobrazena');
+            });
 
-        const cilovaStranka = document.getElementById(idStranky);
-        if(cilovaStranka) {
-            cilovaStranka.classList.add('zobrazena');
-        }
-
-        const vsechnyOdkazy = document.querySelectorAll('#pc-menu a');
-        vsechnyOdkazy.forEach(odkaz => {
-            odkaz.classList.remove('aktivni');
-        });
-        const aktivniOdkaz = document.getElementById('nav-' + idStranky);
-        if(aktivniOdkaz) {
-            aktivniOdkaz.classList.add('aktivni');
-        }
-
-        window.scrollTo(0, 0);
-        document.getElementById('mobil-menu').style.display = 'none';
-    }
-
-    // --- 2. FUNKCE PRO ROZBALENÍ MENU NA MOBILU ---
-    function prepniMobilniMenu() {
-        const menu = document.getElementById('mobil-menu');
-        const ikona = document.getElementById('mobil-ikona');
-        
-        if (menu.style.display === 'none') {
-            menu.style.display = 'block';
-            ikona.classList.remove('fa-bars');
-            ikona.classList.add('fa-xmark');
-        } else {
-            menu.style.display = 'none';
-            ikona.classList.remove('fa-xmark');
-            ikona.classList.add('fa-bars');
-        }
-    }
-
-    // --- 3. ODOLNÉ NAČÍTÁNÍ FOTEK (ZAPISOVAT NÁZVY POUZE MALÝMI PÍSMENY) ---
-    const PRIPONY = ['jpg', 'png', 'jpeg', 'webp'];
-
-    function najdiFotku(zaklad) {
-        return new Promise(hotovo => {
-            let i = 0;
-            function zkus() {
-                if (i >= PRIPONY.length) return hotovo(null);
-                const url = zaklad + '.' + PRIPONY[i++];
-                const img = new Image();
-                img.onload = () => hotovo(url);
-                img.onerror = () => zkus();
-                img.src = url;
+            const cilovaStranka = document.getElementById(idStranky);
+            if(cilovaStranka) {
+                cilovaStranka.classList.add('zobrazena');
             }
-            zkus();
-        });
-    }
 
-    async function nactiFotky(zaklad, max) {
-        const sliby = [];
-        for (let k = 1; k <= max; k++) {
-            sliby.push(najdiFotku(zaklad + '-' + k));
-        }
-        const vysledky = await Promise.all(sliby);
-        return vysledky.filter(Boolean);
-    }
-
-    function otevriFoto(url) {
-        const lb = document.getElementById('lightbox');
-        lb.querySelector('img').src = url;
-        lb.classList.add('otevreny');
-    }
-
-    // Načtení jednotlivých obrázků (auta v přehledu, loga)
-    document.querySelectorAll('img[data-foto]').forEach(async img => {
-        const url = await najdiFotku(img.dataset.foto);
-        if (url) {
-            img.src = url;
-        }
-    });
-
-    // Načtení galerií (výlety, detaily aut)
-    document.querySelectorAll('[data-galerie]').forEach(async box => {
-        const maxFotky = parseInt(box.dataset.max, 10) || 40;
-        const fotky = await nactiFotky(box.dataset.galerie, maxFotky);
-        
-        if (!fotky.length) return;
-        
-        if (box.dataset.prazdno) {
-            const elPrazdno = document.getElementById(box.dataset.prazdno);
-            if (elPrazdno) elPrazdno.style.display = 'none';
-        }
-
-        if (box.classList.contains('galerie-bus')) {
-            const hlavni = document.createElement('img');
-            hlavni.className = 'foto-hlavni';
-            hlavni.src = fotky[0];
-            hlavni.alt = box.dataset.alt || '';
-            hlavni.onclick = () => otevriFoto(hlavni.src);
-            box.appendChild(hlavni);
-
-            if (fotky.length > 1) {
-                const nahledy = document.createElement('div');
-                nahledy.className = 'nahledy';
-                fotky.forEach(url => {
-                    const t = document.createElement('img');
-                    t.src = url; 
-                    t.alt = '';
-                    t.onclick = () => { hlavni.src = url; };
-                    nahledy.appendChild(t);
-                });
-                box.appendChild(nahledy);
+            const vsechnyOdkazy = document.querySelectorAll('#pc-menu a');
+            vsechnyOdkazy.forEach(odkaz => {
+                odkaz.classList.remove('aktivni');
+            });
+            const aktivniOdkaz = document.getElementById('nav-' + idStranky);
+            if(aktivniOdkaz) {
+                aktivniOdkaz.classList.add('aktivni');
             }
-        } else {
-            fotky.forEach(url => {
-                const f = document.createElement('img');
-                f.src = url; 
-                f.alt = 'Fotka z výletu'; 
-                f.loading = 'lazy';
-                f.onclick = () => otevriFoto(url);
-                box.appendChild(f);
+
+            window.scrollTo(0, 0);
+            document.getElementById('mobil-menu').style.display = 'none';
+        }
+
+        function prepniMobilniMenu() {
+            const menu = document.getElementById('mobil-menu');
+            const ikona = document.getElementById('mobil-ikona');
+            
+            if (menu.style.display === 'none') {
+                menu.style.display = 'block';
+                ikona.classList.remove('fa-bars');
+                ikona.classList.add('fa-xmark');
+            } else {
+                menu.style.display = 'none';
+                ikona.classList.remove('fa-xmark');
+                ikona.classList.add('fa-bars');
+            }
+        }
+
+        const PRIPONY = ['jpg', 'png', 'jpeg', 'webp'];
+
+        function najdiFotku(zaklad) {
+            return new Promise(hotovo => {
+                let i = 0;
+                function zkus() {
+                    if (i >= PRIPONY.length) return hotovo(null);
+                    const url = zaklad + '.' + PRIPONY[i++];
+                    const img = new Image();
+                    img.onload = () => hotovo(url);
+                    img.onerror = () => zkus();
+                    img.src = url;
+                }
+                zkus();
             });
         }
-    });
-</script>
+
+        async function nactiFotky(zaklad, max) {
+            const sliby = [];
+            // Pokud je max == 1, načítá se přímo vybraná fotka (např. vylet-25), jinak se prochází řada (vylet-1 až max)
+            if (max === 1) {
+                sliby.push(najdiFotku(zaklad));
+            } else {
+                for (let k = 1; k <= max; k++) {
+                    sliby.push(najdiFotku(zaklad + '-' + k));
+                }
+            }
+            const vysledky = await Promise.all(sliby);
+            return vysledky.filter(Boolean);
+        }
+
+        function otevriFoto(url) {
+            const lb = document.getElementById('lightbox');
+            lb.querySelector('img').src = url;
+            lb.classList.add('otevreny');
+        }
+
+        // Načtení samostatných obrázků (karty na úvodní straně, reference, fotka O nás)
+        document.querySelectorAll('img[data-foto]').forEach(async img => {
+            const url = await najdiFotku(img.dataset.foto);
+            if (url) {
+                img.src = url;
+            }
+        });
+
+        // Načtení fotogalerií a obrázků ve Vozovém parku
+        document.querySelectorAll('[data-galerie]').forEach(async box => {
+            const maxFotky = parseInt(box.dataset.max, 10) || 40;
+            const fotky = await nactiFotky(box.dataset.galerie, maxFotky);
+            
+            if (!fotky.length) return;
+            
+            if (box.dataset.prazdno) {
+                const elPrazdno = document.getElementById(box.dataset.prazdno);
+                if (elPrazdno) elPrazdno.style.display = 'none';
+            }
+
+            if (box.classList.contains('galerie-bus')) {
+                const hlavni = document.createElement('img');
+                hlavni.className = 'foto-hlavni';
+                hlavni.src = fotky[0];
+                hlavni.alt = box.dataset.alt || '';
+                hlavni.onclick = () => otevriFoto(hlavni.src);
+                box.appendChild(hlavni);
+
+                if (fotky.length > 1) {
+                    const nahledy = document.createElement('div');
+                    nahledy.className = 'nahledy';
+                    fotky.forEach(url => {
+                        const t = document.createElement('img');
+                        t.src = url; 
+                        t.alt = '';
+                        t.onclick = () => { hlavni.src = url; };
+                        nahledy.appendChild(t);
+                    });
+                    box.appendChild(nahledy);
+                }
+            } else {
+                fotky.forEach(url => {
+                    const f = document.createElement('img');
+                    f.src = url; 
+                    f.alt = 'Fotka z výletu'; 
+                    f.loading = 'lazy';
+                    f.onclick = () => otevriFoto(url);
+                    box.appendChild(f);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
