@@ -831,126 +831,132 @@
     <!-- NÁSLEDUJÍCÍ ČÁST (AŽ DO </script>) BY NORMÁLNĚ BYLA V: script.js  -->
     <!-- V HTML byste na ni odkázal takto na konci body: <script src="script.js"></script> -->
     <!-- ================================================================= -->
-    <script>
-        // --- 1. FUNKCE PRO PŘEPÍNÁNÍ STRÁNEK (ZÁLOŽEK) ---
-        function prepniStranku(idStranky) {
-            
-            // a) Skryjeme všechny sekce (najdeme všechny elementy s třídou 'stranka' a odebereme jim třídu 'zobrazena')
-            const vsechnyStranky = document.querySelectorAll('.stranka');
-            vsechnyStranky.forEach(stranka => {
-                stranka.classList.remove('zobrazena');
-            });
-
-            // b) Zobrazíme pouze tu sekci, na kterou uživatel klikl
-            const cilovaStranka = document.getElementById(idStranky);
-            if(cilovaStranka) {
-                cilovaStranka.classList.add('zobrazena');
-            }
-
-            // c) Změníme barvu odkazu v horním menu, aby bylo jasné, kde jsme
-            const vsechnyOdkazy = document.querySelectorAll('#pc-menu a');
-            vsechnyOdkazy.forEach(odkaz => {
-                odkaz.classList.remove('aktivni');
-            });
-            const aktivniOdkaz = document.getElementById('nav-' + idStranky);
-            if(aktivniOdkaz) {
-                aktivniOdkaz.classList.add('aktivni');
-            }
-
-            // d) Vždy po kliknutí odscrolujeme prohlížeč úplně nahoru
-            window.scrollTo(0, 0);
-
-            // e) Pokud jsme na mobilu, rovnou schováme mobilní menu po kliknutí na odkaz
-            document.getElementById('mobil-menu').style.display = 'none';
-        }
-
-        // --- 2. FUNKCE PRO ROZBALENÍ MENU NA MOBILU ---
-        function prepniMobilniMenu() {
-            const menu = document.getElementById('mobil-menu');
-            const ikona = document.getElementById('mobil-ikona');
-            
-            // Pokud je menu skryté, zobraz ho (a změň ikonku na křížek)
-            if (menu.style.display === 'none') {
-                menu.style.display = 'block';
-                ikona.classList.remove('fa-bars');
-                ikona.classList.add('fa-xmark');
-            } 
-            // Pokud je zobrazené, skryj ho (a vrať ikonku hamburgeru)
-            else {
-                menu.style.display = 'none';
-                ikona.classList.remove('fa-xmark');
-                ikona.classList.add('fa-bars');
-            }
-        }
-
-        // --- 3. NAČÍTÁNÍ FOTEK ZE SLOŽEK ---
-        // Stačí nahrát fotku se správným názvem do správné složky (viz README.md), HTML se upravovat nemusí.
-        const PRIPONY = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
-
-        function najdiFotku(zaklad) {
-            return new Promise(hotovo => {
-                let i = 0;
-                (function zkus() {
-                    if (i >= PRIPONY.length) return hotovo(null);
-                    const url = zaklad + '.' + PRIPONY[i++];
-                    const img = new Image();
-                    img.onload = () => hotovo(url);
-                    img.onerror = zkus;
-                    img.src = url;
-                })();
-            });
-        }
-
-        async function nactiFotky(zaklad, max) {
-            const nalezene = await Promise.all(Array.from({ length: max }, (_, k) => najdiFotku(zaklad + '-' + (k + 1))));
-            return nalezene.filter(Boolean);
-        }
-
-        function otevriFoto(url) {
-            const lb = document.getElementById('lightbox');
-            lb.querySelector('img').src = url;
-            lb.classList.add('otevreny');
-        }
-
-        // jednotlivé obrázky (úvodní přehled autobusů, loga referencí)
-        document.querySelectorAll('img[data-foto]').forEach(async img => {
-            const url = await najdiFotku(img.dataset.foto);
-            if (url) img.src = url;
+<script>
+    // --- 1. FUNKCE PRO PŘEPÍNÁNÍ STRÁNEK (ZÁLOŽEK) ---
+    function prepniStranku(idStranky) {
+        const vsechnyStranky = document.querySelectorAll('.stranka');
+        vsechnyStranky.forEach(stranka => {
+            stranka.classList.remove('zobrazena');
         });
 
-        // galerie (fotky autobusů, fotky z výletů)
-        document.querySelectorAll('[data-galerie]').forEach(async box => {
-            const fotky = await nactiFotky(box.dataset.galerie, +box.dataset.max || 8);
-            if (!fotky.length) return;
-            if (box.dataset.prazdno) document.getElementById(box.dataset.prazdno).style.display = 'none';
+        const cilovaStranka = document.getElementById(idStranky);
+        if(cilovaStranka) {
+            cilovaStranka.classList.add('zobrazena');
+        }
 
-            if (box.classList.contains('galerie-bus')) {
-                const hlavni = document.createElement('img');
-                hlavni.className = 'foto-hlavni';
-                hlavni.src = fotky[0];
-                hlavni.alt = box.dataset.alt || '';
-                hlavni.onclick = () => otevriFoto(hlavni.src);
-                box.appendChild(hlavni);
-                if (fotky.length > 1) {
-                    const nahledy = document.createElement('div');
-                    nahledy.className = 'nahledy';
-                    fotky.forEach(url => {
-                        const t = document.createElement('img');
-                        t.src = url; t.alt = '';
-                        t.onclick = () => { hlavni.src = url; };
-                        nahledy.appendChild(t);
-                    });
-                    box.appendChild(nahledy);
-                }
-            } else {
+        const vsechnyOdkazy = document.querySelectorAll('#pc-menu a');
+        vsechnyOdkazy.forEach(odkaz => {
+            odkaz.classList.remove('aktivni');
+        });
+        const aktivniOdkaz = document.getElementById('nav-' + idStranky);
+        if(aktivniOdkaz) {
+            aktivniOdkaz.classList.add('aktivni');
+        }
+
+        window.scrollTo(0, 0);
+        document.getElementById('mobil-menu').style.display = 'none';
+    }
+
+    // --- 2. FUNKCE PRO ROZBALENÍ MENU NA MOBILU ---
+    function prepniMobilniMenu() {
+        const menu = document.getElementById('mobil-menu');
+        const ikona = document.getElementById('mobil-ikona');
+        
+        if (menu.style.display === 'none') {
+            menu.style.display = 'block';
+            ikona.classList.remove('fa-bars');
+            ikona.classList.add('fa-xmark');
+        } else {
+            menu.style.display = 'none';
+            ikona.classList.remove('fa-xmark');
+            ikona.classList.add('fa-bars');
+        }
+    }
+
+    // --- 3. ODOLNÉ NAČÍTÁNÍ FOTEK (ZAPISOVAT NÁZVY POUZE MALÝMI PÍSMENY) ---
+    const PRIPONY = ['jpg', 'png', 'jpeg', 'webp'];
+
+    function najdiFotku(zaklad) {
+        return new Promise(hotovo => {
+            let i = 0;
+            function zkus() {
+                if (i >= PRIPONY.length) return hotovo(null);
+                const url = zaklad + '.' + PRIPONY[i++];
+                const img = new Image();
+                img.onload = () => hotovo(url);
+                img.onerror = () => zkus();
+                img.src = url;
+            }
+            zkus();
+        });
+    }
+
+    async function nactiFotky(zaklad, max) {
+        const sliby = [];
+        for (let k = 1; k <= max; k++) {
+            sliby.push(najdiFotku(zaklad + '-' + k));
+        }
+        const vysledky = await Promise.all(sliby);
+        return vysledky.filter(Boolean);
+    }
+
+    function otevriFoto(url) {
+        const lb = document.getElementById('lightbox');
+        lb.querySelector('img').src = url;
+        lb.classList.add('otevreny');
+    }
+
+    // Načtení jednotlivých obrázků (auta v přehledu, loga)
+    document.querySelectorAll('img[data-foto]').forEach(async img => {
+        const url = await najdiFotku(img.dataset.foto);
+        if (url) {
+            img.src = url;
+        }
+    });
+
+    // Načtení galerií (výlety, detaily aut)
+    document.querySelectorAll('[data-galerie]').forEach(async box => {
+        const maxFotky = parseInt(box.dataset.max, 10) || 40;
+        const fotky = await nactiFotky(box.dataset.galerie, maxFotky);
+        
+        if (!fotky.length) return;
+        
+        if (box.dataset.prazdno) {
+            const elPrazdno = document.getElementById(box.dataset.prazdno);
+            if (elPrazdno) elPrazdno.style.display = 'none';
+        }
+
+        if (box.classList.contains('galerie-bus')) {
+            const hlavni = document.createElement('img');
+            hlavni.className = 'foto-hlavni';
+            hlavni.src = fotky[0];
+            hlavni.alt = box.dataset.alt || '';
+            hlavni.onclick = () => otevriFoto(hlavni.src);
+            box.appendChild(hlavni);
+
+            if (fotky.length > 1) {
+                const nahledy = document.createElement('div');
+                nahledy.className = 'nahledy';
                 fotky.forEach(url => {
-                    const f = document.createElement('img');
-                    f.src = url; f.alt = 'Fotka z výletu'; f.loading = 'lazy';
-                    f.onclick = () => otevriFoto(url);
-                    box.appendChild(f);
+                    const t = document.createElement('img');
+                    t.src = url; 
+                    t.alt = '';
+                    t.onclick = () => { hlavni.src = url; };
+                    nahledy.appendChild(t);
                 });
+                box.appendChild(nahledy);
             }
-        });
-    </script>
+        } else {
+            fotky.forEach(url => {
+                const f = document.createElement('img');
+                f.src = url; 
+                f.alt = 'Fotka z výletu'; 
+                f.loading = 'lazy';
+                f.onclick = () => otevriFoto(url);
+                box.appendChild(f);
+            });
+        }
+    });
+</script>
 </body>
 </html>
