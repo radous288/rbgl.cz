@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png">
     <title>RB Global Logistik - Autobusová doprava</title>
     
     <!-- Ikonky FontAwesome (abychom měli hezké obrázky autobusu, telefonu atd.) -->
@@ -336,6 +337,47 @@
             z-index: 1000;
         }
 
+        /* --- LOGO --- */
+        .logo-img { height: 56px; width: auto; display: block; background: #fff; border-radius: 8px; padding: 4px 8px; }
+        .logo-text { display: flex; align-items: center; gap: 10px; }
+
+        /* --- VOZOVÝ PARK --- */
+        .obsazenost { font-size: 18px; margin: 10px 0 15px; }
+        .obsazenost i { color: var(--barva-hlavni); margin-right: 6px; }
+        .bus-radek { display: flex; flex-wrap: wrap; margin-bottom: 40px; }
+        .bus-radek.obracene { flex-direction: row-reverse; }
+        .bus-foto { flex: 1; min-width: 300px; background: #fff; padding: 20px; display: flex; flex-direction: column; justify-content: center; }
+        .bus-info { flex: 1; min-width: 300px; padding: 40px; }
+        .vybava { list-style: none; margin: 20px 0; }
+        .vybava li { margin-bottom: 8px; }
+        .galerie-bus .foto-hlavni { width: 100%; max-height: 320px; object-fit: contain; display: block; cursor: zoom-in; }
+        .nahledy { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+        .nahledy img { width: 72px; height: 54px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #e2e8f0; }
+        .nahledy img:hover { border-color: var(--barva-hlavni); }
+        img[data-foto]:not([src]) { visibility: hidden; }
+
+        /* --- FOTKY Z VÝLETŮ --- */
+        .vylety-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 60px; }
+        .vylety-grid img { width: 100%; height: 190px; object-fit: cover; border-radius: 12px; cursor: zoom-in; transition: transform 0.3s; }
+        .vylety-grid img:hover { transform: scale(1.03); }
+
+        /* --- REFERENCE --- */
+        .reference-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 60px 20px; }
+        .ref-karta { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 16px; text-align: center; text-decoration: none; color: var(--barva-textu); font-weight: 700; font-size: 14px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 14px; transition: transform 0.2s, box-shadow 0.2s; }
+        .ref-karta:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .ref-logo { height: 90px; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .ref-logo img { max-width: 100%; max-height: 90px; object-fit: contain; }
+        a.ref-karta[href="#"] { pointer-events: none; } /* reference bez odkazu nejsou klikací */
+
+        /* --- ZVĚTŠENÍ FOTKY --- */
+        #lightbox { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.9); z-index: 2000; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+        #lightbox.otevreny { display: flex; }
+        #lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+
+        /* --- KONTAKT --- */
+        .kontakt-velke { font-size: clamp(20px, 5vw, 36px); font-weight: bold; word-break: break-word; }
+        .kontaktni-pruh a, .paticka-grid a { color: inherit; text-decoration: none; }
+
         /* --- RESPONZIVITA (PRO MOBILY) --- */
         @media (max-width: 768px) {
             .odkazy { display: none; } /* Skryjeme PC menu */
@@ -357,8 +399,9 @@
         <div class="kontejner menu-lista">
             <!-- Logo (kliknutím přepne na Domů) -->
             <div class="logo" onclick="prepniStranku('domu')">
-                <i class="fa-solid fa-bus"></i>
-                <span>RB <span class="akcent">GLOBAL LOGISTIK s. r. o.</span></span>
+                <img src="logo.png" alt="RB Global Logistik s.r.o." class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <!-- Textové logo se ukáže jen dokud chybí soubor logo.png -->
+                <span class="logo-text" style="display:none"><i class="fa-solid fa-bus"></i><span>RB <span class="akcent">GLOBAL LOGISTIK s.r.o.</span></span></span>
             </div>
 
             <!-- Odkazy pro Počítače -->
@@ -366,6 +409,8 @@
                 <a onclick="prepniStranku('domu')" class="aktivni" id="nav-domu">Domů</a>
                 <a onclick="prepniStranku('sluzby')" id="nav-sluzby">Služby</a>
                 <a onclick="prepniStranku('vozovy-park')" id="nav-vozovy-park">Vozový park</a>
+                <a onclick="prepniStranku('fotogalerie')" id="nav-fotogalerie">Fotogalerie</a>
+                <a onclick="prepniStranku('reference')" id="nav-reference">Reference</a>
                 <a onclick="prepniStranku('o-nas')" id="nav-o-nas">O nás</a>
                 <button onclick="prepniStranku('kontakt')" class="btn-hlavni" id="nav-kontakt">Kontakt</button>
             </nav>
@@ -381,6 +426,9 @@
             <a onclick="prepniStranku('domu')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Domů</a>
             <a onclick="prepniStranku('sluzby')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Služby</a>
             <a onclick="prepniStranku('vozovy-park')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Vozový park</a>
+            <a onclick="prepniStranku('fotogalerie')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Fotogalerie</a>
+            <a onclick="prepniStranku('reference')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">Reference</a>
+            <a onclick="prepniStranku('o-nas')" style="display:block; padding:15px; border-bottom:1px solid #334155; color:white; font-weight:bold;">O nás</a>
             <a onclick="prepniStranku('kontakt')" style="display:block; padding:15px; color:white; font-weight:bold;">Kontakt</a>
         </nav>
     </header>
@@ -396,7 +444,7 @@
             <div class="hero">
                 <div class="kontejner">
                     <h1>Spolehlivá autobusová doprava po <span>celé Evropě</span></h1>
-                    <p>Moderní vozový park, profesionální řidiči, férové ceny. Přepravíme vás bezpečně, pohodlně a včas. RB Global Logistik s. r. o.</p>
+                    <p>Moderní vozový park, profesionální řidiči, férové ceny. Přepravíme vás bezpečně, pohodlně a včas. RB Global Logistik s.r.o.</p>
                     
                     <div class="hero-tlacitka">
                         <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
@@ -431,11 +479,12 @@
                 </div>
                 <div class="kontejner grid-3">
                     <div class="karta">
-                        <div class="karta-obrazek"><img src="mercedes.jpg" alt="Mercedes-Benz Tourismo"></div>
+                        <div class="karta-obrazek"><img data-foto="fotky/tourismo-1" alt="Mercedes-Benz Tourismo"></div>
                         <div class="karta-obsah">
                             <h3>Mercedes-Benz Tourismo</h3>
                             <p style="color:var(--barva-hlavni); font-weight:bold; margin-bottom:15px;">Velký zájezdový autobus</p>
                             <ul>
+                                <li><i class="fa-solid fa-users"></i> Obsazenost: <strong>49 + 2 + 1</strong></li>
                                 <li><i class="fa-solid fa-check"></i> Klimatizace</li>
                                 <li><i class="fa-solid fa-check"></i> WC a kávovar</li>
                             </ul>
@@ -443,11 +492,12 @@
                         </div>
                     </div>
                     <div class="karta">
-                        <div class="karta-obrazek"><img src="Tourline.png" alt="Mercedes-Benz Sprinter Tourine"></div>
+                        <div class="karta-obrazek"><img data-foto="fotky/sprinter-1" alt="Mercedes-Benz Sprinter"></div>
                         <div class="karta-obsah">
                             <h3>Mercedes-Benz Sprinter</h3>
                             <p style="color:var(--barva-hlavni); font-weight:bold; margin-bottom:15px;">Minibus</p>
                             <ul>
+                                <li><i class="fa-solid fa-users"></i> Obsazenost: <strong>19 + 1 + 1</strong></li>
                                 <li><i class="fa-solid fa-check"></i> Klimatizace prostoru</li>
                                 <li><i class="fa-solid fa-check"></i> Pohodlná sedadla</li>
                             </ul>
@@ -455,11 +505,12 @@
                         </div>
                     </div>
                     <div class="karta">
-                        <div class="karta-obrazek"><img src="iveco.jpg" alt="Iveco Daily"></div>
+                        <div class="karta-obrazek"><img data-foto="fotky/iveco-1" alt="Iveco Daily Irisbus"></div>
                         <div class="karta-obsah">
-                            <h3>Iveco Daily</h3>
+                            <h3>Iveco Daily Irisbus</h3>
                             <p style="color:var(--barva-hlavni); font-weight:bold; margin-bottom:15px;">Minibus</p>
                             <ul>
+                                <li><i class="fa-solid fa-users"></i> Obsazenost: <strong>19 + 1</strong></li>
                                 <li><i class="fa-solid fa-check"></i> Praktický prostor</li>
                                 <li><i class="fa-solid fa-check"></i> Spolehlivost</li>
                             </ul>
@@ -482,10 +533,10 @@
                 </div>
             </div>
 
-            <div class="kontejner grid-2" style="margin-top: 60px;">
+            <div class="kontejner grid-2" style="margin-top: 60px; margin-bottom: 60px;">
                 <div class="karta">
                     <div class="karta-obsah">
-                        <i class="fa-solid fa-earth-europe benefit-ikona"></i>
+                        <i class="fa-solid fa-earth-europe benefit-ikona" style=""></i>
                         <h3>Zájezdy po ČR a Evropě</h3>
                         <p>Zajišťujeme poznávací i pobytové zájezdy po celé České republice a do všech evropských destinací.</p>
                         <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
@@ -496,6 +547,22 @@
                         <i class="fa-solid fa-briefcase benefit-ikona" style="color:#0ea5e9;"></i>
                         <h3>Firemní doprava</h3>
                         <p>Teambuildingy, večírky, konference. Reprezentativní doprava pro vaše zaměstnance a obchodní partnery.</p>
+                        <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="karta">
+                    <div class="karta-obsah">
+                        <i class="fa-solid fa-route benefit-ikona" style="color:#22c55e;"></i>
+                        <h3>Pravidelná zvláštní linková doprava</h3>
+                        <p>Pravidelná přeprava určených skupin cestujících, například zaměstnanců do práce nebo žáků do školy.</p>
+                        <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="karta">
+                    <div class="karta-obsah">
+                        <i class="fa-solid fa-truck-pickup benefit-ikona" style="color:#f59e0b;"></i>
+                        <h3>Nákladní doprava</h3>
+                        <p>Přepravník vozidel a odtahová služba.</p>
                         <button onclick="prepniStranku('kontakt')" style="background:none; border:none; color:var(--barva-hlavni); font-weight:bold; margin-top:20px; cursor:pointer;">Kontaktujte nás <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
@@ -514,60 +581,107 @@
             </div>
 
             <div class="kontejner" style="margin-top: 60px;">
-                <!-- Mercedes Tourismo -->
-                <div class="karta" style="display:flex; flex-wrap:wrap; margin-bottom:40px;">
-                    <div style="flex:1; min-width:300px; background:#ffffff; display:flex; align-items:center; justify-content:center; min-height:300px; padding: 20px;">
-                        <img src="mercedes.jpg" alt="Mercedes-Benz Tourismo" style="max-width:100%; max-height:300px; object-fit:contain;">
+                <!-- Mercedes-Benz Tourismo -->
+                <div class="karta bus-radek">
+                    <div class="bus-foto">
+                        <div class="galerie-bus" data-galerie="fotky/tourismo" data-max="8" data-alt="Mercedes-Benz Tourismo"></div>
                     </div>
-                    <div style="flex:1; padding:40px; min-width:300px;">
+                    <div class="bus-info">
                         <h2>Mercedes-Benz Tourismo</h2>
-                        <p style="color:var(--barva-hlavni); font-weight:bold; font-size:20px; margin: 10px 0;">Kapacita: 50 + 1 + 1 míst</p>
+                        <p style="color:var(--barva-hlavni); font-weight:bold; margin-top:10px;">Velký zájezdový autobus</p>
+                        <p class="obsazenost"><i class="fa-solid fa-users"></i> Obsazenost autobusu: <strong>49 + 2 + 1</strong></p>
                         <p>Náš největší a nejluxusnější autobus. Ideální pro dálkové cesty po Evropě. Nabízí maximální prostor pro nohy.</p>
-                        <ul style="list-style:none; margin: 20px 0;">
+                        <ul class="vybava">
                             <li>✔️ Automatická klimatizace</li>
-                            <li>✔️ 2x LCD Monitory</li>
-                            <li>✔️ WC a Kávovar</li>
-                            <li>✔️ Polohovatelná sedadla</li>
+                            <li>✔️ 2x LCD monitory</li>
+                            <li>✔️ WC a kávovar</li>
+                            <li>✔️ Polohovatelná sedadla s bezpečnostními pásy</li>
+                            <li>✔️ Individuální osvětlení a rozvod klimatizace</li>
+                            <li>✔️ Tažné zařízení – pro připojení vleku, cyklovleku, vleku pro přepravu lodí</li>
                         </ul>
                         <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Mám zájem - Kontakt</button>
                     </div>
                 </div>
 
-                <!-- Mercedes Sprinter Tourine -->
-                <div class="karta" style="display:flex; flex-wrap:wrap; margin-bottom:40px; flex-direction: row-reverse;">
-                    <div style="flex:1; min-width:300px; background:#ffffff; display:flex; align-items:center; justify-content:center; min-height:300px; padding: 20px;">
-                        <img src="Tourline.png" alt="Mercedes-Benz Sprinter Tourine" style="max-width:100%; max-height:300px; object-fit:contain;">
+                <!-- Mercedes-Benz Sprinter -->
+                <div class="karta bus-radek obracene">
+                    <div class="bus-foto">
+                        <div class="galerie-bus" data-galerie="fotky/sprinter" data-max="8" data-alt="Mercedes-Benz Sprinter"></div>
                     </div>
-                    <div style="flex:1; padding:40px; min-width:300px;">
-                        <h2>Mercedes-Benz Sprinter Tourine</h2>
-                        <p style="color:var(--barva-hlavni); font-weight:bold; font-size:20px; margin: 10px 0;">Minibus</p>
+                    <div class="bus-info">
+                        <h2>Mercedes-Benz Sprinter</h2>
+                        <p style="color:var(--barva-hlavni); font-weight:bold; margin-top:10px;">Minibus</p>
+                        <p class="obsazenost"><i class="fa-solid fa-users"></i> Obsazenost autobusu: <strong>19 + 1 + 1</strong></p>
                         <p>Kompaktní a komfortní minibus v bílé barvě. Skvělá volba pro menší skupiny, které nechtějí slevit z pohodlí na cestách.</p>
-                        <ul style="list-style:none; margin: 20px 0;">
+                        <ul class="vybava">
                             <li>✔️ Klimatizace prostoru</li>
-                            <li>✔️ Pohodlná sedadla</li>
                             <li>✔️ Tónovaná skla</li>
+                            <li>✔️ Polohovatelná sedadla s bezpečnostními pásy</li>
+                            <li>✔️ Individuální osvětlení a rozvod klimatizace</li>
+                            <li>✔️ Tažné zařízení – pro připojení vleku, cyklovleku, vleku pro přepravu lodí</li>
                         </ul>
                         <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Mám zájem - Kontakt</button>
                     </div>
                 </div>
 
-                <!-- Iveco Daily -->
-                <div class="karta" style="display:flex; flex-wrap:wrap; margin-bottom:40px;">
-                    <div style="flex:1; min-width:300px; background:#ffffff; display:flex; align-items:center; justify-content:center; min-height:300px; padding: 20px;">
-                        <img src="iveco.jpg" alt="Iveco Daily" style="max-width:100%; max-height:300px; object-fit:contain;">
+                <!-- Iveco Daily Irisbus -->
+                <div class="karta bus-radek">
+                    <div class="bus-foto">
+                        <div class="galerie-bus" data-galerie="fotky/iveco" data-max="8" data-alt="Iveco Daily Irisbus"></div>
                     </div>
-                    <div style="flex:1; padding:40px; min-width:300px;">
-                        <h2>Iveco Daily</h2>
-                        <p style="color:var(--barva-hlavni); font-weight:bold; font-size:20px; margin: 10px 0;">Minibus</p>
+                    <div class="bus-info">
+                        <h2>Iveco Daily Irisbus</h2>
+                        <p style="color:var(--barva-hlavni); font-weight:bold; margin-top:10px;">Minibus</p>
+                        <p class="obsazenost"><i class="fa-solid fa-users"></i> Obsazenost autobusu: <strong>19 + 1</strong></p>
                         <p>Praktický a spolehlivý bílý minibus. Ideální pro transfery na letiště, firemní akce nebo kratší výlety.</p>
-                        <ul style="list-style:none; margin: 20px 0;">
+                        <ul class="vybava">
                             <li>✔️ Dostatek prostoru</li>
                             <li>✔️ Bezpečná přeprava</li>
                             <li>✔️ Flexibilní využití</li>
+                            <li>✔️ Polohovatelná sedadla s bezpečnostními pásy</li>
+                            <li>✔️ Individuální osvětlení a rozvod klimatizace</li>
+                            <li>✔️ Tažné zařízení – pro připojení vleku, cyklovleku, vleku pro přepravu lodí</li>
                         </ul>
                         <button onclick="prepniStranku('kontakt')" class="btn-hlavni">Mám zájem - Kontakt</button>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="fotogalerie" class="stranka">
+            <div class="hero" style="padding: 60px 0; text-align: center;">
+                <div class="kontejner">
+                    <h1>Fotogalerie</h1>
+                    <p style="margin: 0 auto;">Z našich výletů</p>
+                </div>
+            </div>
+            <div class="kontejner" style="margin-top: 60px;">
+                <p id="vylety-prazdno" style="text-align:center; color:#64748b; margin-bottom:60px;">Fotogalerie se připravuje.</p>
+                <div class="vylety-grid" data-galerie="vylety/vylet" data-max="40" data-prazdno="vylety-prazdno"></div>
+            </div>
+        </section>
+
+        <section id="reference" class="stranka">
+            <div class="hero" style="padding: 60px 0; text-align: center;">
+                <div class="kontejner">
+                    <h1>Reference</h1>
+                    <p style="margin: 0 auto;">Pro koho jezdíme</p>
+                </div>
+            </div>
+            <!-- NOVÁ REFERENCE: zkopírujte jeden blok <a class="ref-karta">...</a>, změňte odkaz (href),
+                 název souboru loga (data-foto, bez přípony) a text. Logo uložte do složky "reference". -->
+            <div class="kontejner reference-grid">
+                <a class="ref-karta" href="https://www.viscumaplastic.cz" target="_blank" rel="noopener"><div class="ref-logo"><img data-foto="reference/viscuma-plastic" alt="Viscuma Plastic a.s." loading="lazy"></div><span>Viscuma Plastic a.s.</span></a>
+                <a class="ref-karta" href="https://www.miele.cz" target="_blank" rel="noopener"><div class="ref-logo"><img data-foto="reference/miele-technika" alt="Miele technika s.r.o." loading="lazy"></div><span>Miele technika s.r.o.</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/viscuma" alt="Viscuma s.r.o." loading="lazy"></div><span>Viscuma s.r.o.</span></a>
+                <a class="ref-karta" href="https://fotbalzabreh.cz" target="_blank" rel="noopener"><div class="ref-logo"><img data-foto="reference/sk-sulko-zabreh" alt="SK Sulko Zábřeh" loading="lazy"></div><span>SK Sulko Zábřeh</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/centrum-moravia" alt="CENTRUM Moravia spol. s r.o." loading="lazy"></div><span>CENTRUM Moravia spol. s r.o.</span></a>
+                <a class="ref-karta" href="https://www.adecco.cz" target="_blank" rel="noopener"><div class="ref-logo"><img data-foto="reference/adecco" alt="ADECCO spol. s r.o." loading="lazy"></div><span>ADECCO spol. s r.o.</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/cba-nuget" alt="CBA Nuget" loading="lazy"></div><span>CBA Nuget</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/3-zs-zabreh" alt="3. ZŠ Zábřeh" loading="lazy"></div><span>3. ZŠ Zábřeh</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/zs-ddm-krasohled" alt="ZŠ a DDM Krasohled" loading="lazy"></div><span>ZŠ a DDM Krasohled</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/dream-team-zabreh" alt="Dream Team Zábřeh" loading="lazy"></div><span>Dream Team Zábřeh</span></a>
+                <a class="ref-karta" href="#"><div class="ref-logo"><img data-foto="reference/brnenka" alt="Brněnka" loading="lazy"></div><span>Brněnka</span></a>
             </div>
         </section>
 
@@ -610,7 +724,7 @@
                     </div>
                     <div>
                         <div style="font-size:12px; text-transform:uppercase; letter-spacing:2px; color:#cbd5e1;">Napište nám</div>
-                        <div style="font-size:36px; font-weight:bold;">info@rbgl.cz</div>
+                        <div class="kontakt-velke"><a href="mailto:radek.banik@seznam.cz">radek.banik@seznam.cz</a></div>
                     </div>
                 </div>
             </div>
@@ -660,17 +774,18 @@
                 <div>
                     <div class="karta" style="padding:40px; margin-bottom:30px;">
                         <h3 style="margin-bottom:20px;">Fakturační údaje</h3>
-                        <p><strong>RB Global Logistik s. r. o.</strong></p>
-                        <p>Zábřeh<br>Česká republika</p>
+                        <p><strong>RB Global Logistik s.r.o.</strong></p>
+                        <p>Rájec 140, Rájec<br>789 01 Zábřeh<br>Česká republika</p>
                         <br>
-                        <p>IČO: 27806782 <br>DIČ: CZ27806782</p>
+                        <p>IČ: 27806782 <br>DIČ: CZ27806782</p>
+                        <p style="margin-top:10px;">E-mail: <a href="mailto:radek.banik@seznam.cz" style="color:var(--barva-hlavni);">radek.banik@seznam.cz</a></p>
                         <p style="font-size:12px; color:#94a3b8; margin-top:20px;">Společnost je zapsána v obchodním rejstříku.</p>
                     </div>
                     
                     <!-- Rámeček pro Google Mapu -->
                     <div style="background:#e2e8f0; height:300px; border-radius:16px; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#64748b; overflow:hidden;">
                         <!-- Mapa vložená přes iframe (nastavena na 100% šířky i výšky) -->
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d82280.92865956303!2d16.774498582470525!3d49.874786552118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471211e39077aa09%3A0x400af0f66162ed0!2zWsOhYsWZZWgsIDc4OSAwMSBaw6FixZllaA!5e0!3m2!1scs!2scz!4v1774956620460!5m2!1scs!2scz" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps?q=R%C3%A1jec+140%2C+789+01+Z%C3%A1b%C5%99eh&output=embed" title="Mapa – Rájec 140, Zábřeh" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -689,18 +804,23 @@
                 <h4 style="color:white; margin-bottom:15px;">Odkazy</h4>
                 <p><a onclick="prepniStranku('sluzby')" style="color:#94a3b8; cursor:pointer;">Naše služby</a></p>
                 <p><a onclick="prepniStranku('vozovy-park')" style="color:#94a3b8; cursor:pointer;">Vozový park</a></p>
+                <p><a onclick="prepniStranku('fotogalerie')" style="color:#94a3b8; cursor:pointer;">Fotogalerie</a></p>
+                <p><a onclick="prepniStranku('reference')" style="color:#94a3b8; cursor:pointer;">Reference</a></p>
             </div>
             <div>
                 <h4 style="color:white; margin-bottom:15px;">Kontakt</h4>
                 <p>📞 +420 604 991 449</p>
-                <p>✉️ info@rbgl.cz</p>
-                <p>📍 Zábřeh, ČR</p>
+                <p>✉️ <a href="mailto:radek.banik@seznam.cz">radek.banik@seznam.cz</a></p>
+                <p>📍 Rájec 140, Rájec, 789 01 Zábřeh</p>
+                <p>IČ: 27806782 · DIČ: CZ27806782</p>
             </div>
         </div>
         <div class="kontejner" style="text-align:center; border-top:1px solid #1e293b; padding-top:20px;">
-            &copy; 2026 RB Global Logistik s. r. o. Všechna práva vyhrazena.
+            &copy; 2026 RB Global Logistik s.r.o. Všechna práva vyhrazena.
         </div>
     </footer>
+
+    <div id="lightbox" onclick="this.classList.remove('otevreny')"><img alt=""></div>
 
     <!-- Tlačítko WhatsApp vpravo dole -->
     <a href="https://wa.me/420604991449" target="_blank" class="whatsapp-btn" title="Napsat na WhatsApp">
@@ -762,6 +882,75 @@
                 ikona.classList.add('fa-bars');
             }
         }
+
+        // --- 3. NAČÍTÁNÍ FOTEK ZE SLOŽEK ---
+        // Stačí nahrát fotku se správným názvem do správné složky (viz README.md), HTML se upravovat nemusí.
+        const PRIPONY = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+
+        function najdiFotku(zaklad) {
+            return new Promise(hotovo => {
+                let i = 0;
+                (function zkus() {
+                    if (i >= PRIPONY.length) return hotovo(null);
+                    const url = zaklad + '.' + PRIPONY[i++];
+                    const img = new Image();
+                    img.onload = () => hotovo(url);
+                    img.onerror = zkus;
+                    img.src = url;
+                })();
+            });
+        }
+
+        async function nactiFotky(zaklad, max) {
+            const nalezene = await Promise.all(Array.from({ length: max }, (_, k) => najdiFotku(zaklad + '-' + (k + 1))));
+            return nalezene.filter(Boolean);
+        }
+
+        function otevriFoto(url) {
+            const lb = document.getElementById('lightbox');
+            lb.querySelector('img').src = url;
+            lb.classList.add('otevreny');
+        }
+
+        // jednotlivé obrázky (úvodní přehled autobusů, loga referencí)
+        document.querySelectorAll('img[data-foto]').forEach(async img => {
+            const url = await najdiFotku(img.dataset.foto);
+            if (url) img.src = url;
+        });
+
+        // galerie (fotky autobusů, fotky z výletů)
+        document.querySelectorAll('[data-galerie]').forEach(async box => {
+            const fotky = await nactiFotky(box.dataset.galerie, +box.dataset.max || 8);
+            if (!fotky.length) return;
+            if (box.dataset.prazdno) document.getElementById(box.dataset.prazdno).style.display = 'none';
+
+            if (box.classList.contains('galerie-bus')) {
+                const hlavni = document.createElement('img');
+                hlavni.className = 'foto-hlavni';
+                hlavni.src = fotky[0];
+                hlavni.alt = box.dataset.alt || '';
+                hlavni.onclick = () => otevriFoto(hlavni.src);
+                box.appendChild(hlavni);
+                if (fotky.length > 1) {
+                    const nahledy = document.createElement('div');
+                    nahledy.className = 'nahledy';
+                    fotky.forEach(url => {
+                        const t = document.createElement('img');
+                        t.src = url; t.alt = '';
+                        t.onclick = () => { hlavni.src = url; };
+                        nahledy.appendChild(t);
+                    });
+                    box.appendChild(nahledy);
+                }
+            } else {
+                fotky.forEach(url => {
+                    const f = document.createElement('img');
+                    f.src = url; f.alt = 'Fotka z výletu'; f.loading = 'lazy';
+                    f.onclick = () => otevriFoto(url);
+                    box.appendChild(f);
+                });
+            }
+        });
     </script>
 </body>
 </html>
